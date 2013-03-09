@@ -14,6 +14,7 @@ require('Sidebar')
 function love.load()
     math.randomseed(os.time())
     love.graphics.setBackgroundColor(0, 0, 0)
+    loveframes.util.SetActiveSkin('Rogue')
     Game.setup()
     current_game = Game()
 end

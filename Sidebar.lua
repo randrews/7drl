@@ -18,9 +18,15 @@ function Sidebar:initialize(game)
 end
 
 function Sidebar:update()
-    self.level:SetText{"Level " .. self.game.level}
-    self.health:SetText{"Health: " .. self.game.health}
-    self.score:SetText{"Score: " .. self.game.score}
+    local white = {255, 255, 255}
+    local health_color = {0, 255, 0}
+    if self.game.health <= 5 then
+        health_color = {255, 0, 0}
+    end
+
+    self.level:SetText{white, "Level " .. self.game.level}
+    self.health:SetText{white, "Health: ", health_color, self.game.health}
+    self.score:SetText{white, "Score: " .. self.game.score}
 end
 
 return Sidebar
