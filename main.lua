@@ -12,7 +12,7 @@ require('Game')
 
 function love.load()
     math.randomseed(os.time())
-    love.graphics.setBackgroundColor(0, 0, 20)
+    love.graphics.setBackgroundColor(0, 0, 0)
     Game.setup()
     current_game = Game()
 end
@@ -44,5 +44,6 @@ function love.keypressed(key, unicode)
 end
 
 function love.keyreleased(key)
+    current_game:keyreleased(key)
     loveframes.keyreleased(key)
 end

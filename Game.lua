@@ -64,10 +64,17 @@ function Game:initialize()
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
+
+    self.bg_effect = nil
+    self.key_repeat_clock = nil
 end
 
 function Game:draw()
     local g = love.graphics
+
+    if self.bg_effect then
+        g.setBackgroundColor(self.bg_effect.value, 0, 0)
+    end
 
     g.push()
     g.setScissor(0, 0, 40*20, 40*15)
@@ -105,6 +112,19 @@ function Game:keypressed(key)
         local new_loc = pt + self.player_loc
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             self.player_loc = new_loc
+        else
+            self.bg_effect = Tween(64, 0, 0.5)
         end
+
+        if not self.key_repeat_clock then
+            self.key_repeat_clock = Clock(0.15, function() self:keypressed(key) end)
+        end
+    end
+end
+
+function Game:keyreleased()
+    if self.key_repeat_clock then
+        self.key_repeat_clock:stop()
+        self.key_repeat_clock = nil
     end
 end
