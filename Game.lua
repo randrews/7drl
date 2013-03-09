@@ -65,7 +65,7 @@ function Game:initialize()
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
 
-    self.bg_effect = nil
+    self.bg_effect = {value=255}
     self.key_repeat_clock = nil
 end
 
@@ -73,7 +73,7 @@ function Game:draw()
     local g = love.graphics
 
     if self.bg_effect then
-        g.setBackgroundColor(self.bg_effect.value, 0, 0)
+        g.setColor(self.bg_effect.value, self.bg_effect.value, self.bg_effect.value)
     end
 
     g.push()
@@ -82,14 +82,13 @@ function Game:draw()
             -(self.player_loc.x*40 - 9.5*40),
             -(self.player_loc.y*40 - 7*40))
 
+
     for pt in self.map:each(self.player_loc-Point(10, 8), 21, 16) do
         local c = self.map:at(pt)
 
         if c == '#' then
-            g.setColor(255, 255, 255)
             g.drawq(Game.images.walls, Game.quads.wall, pt.x*40, pt.y*40)
         elseif c == '.' then
-            g.setColor(128, 128, 128)
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40)
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40)
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40+20)
@@ -98,7 +97,6 @@ function Game:draw()
         end
     end
 
-    g.setColor(255, 255, 255)
     g.drawq(Game.images.chars, Game.quads.player,
             self.player_loc.x * 40 + 4,
             self.player_loc.y * 40 + 4)
@@ -113,11 +111,11 @@ function Game:keypressed(key)
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             self.player_loc = new_loc
         else
-            self.bg_effect = Tween(64, 0, 0.5)
+            self.bg_effect = Tween(140, 255, 0.5)
         end
 
         if not self.key_repeat_clock then
-            self.key_repeat_clock = Clock(0.15, function() self:keypressed(key) end)
+            self.key_repeat_clock = Clock(0.2, function() self:keypressed(key) end)
         end
     end
 end
