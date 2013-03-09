@@ -13,6 +13,7 @@ require('Game')
 function love.load()
    math.randomseed(os.time())
    love.graphics.setBackgroundColor(0, 0, 20)
+   Game.setup()
    current_game = Game()
 end
 

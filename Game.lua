@@ -4,6 +4,20 @@ require('Point')
 
 Game = class('Game')
 
+function Game.static.setup()
+    Game.images = {}
+
+    Game.images.chars = love.graphics.newImage("art/characters-32x32.png")
+    Game.images.walls = love.graphics.newImage("art/wall-tiles-40x40.png")
+    Game.images.floors = love.graphics.newImage("art/floor-tiles-20x20.png")
+
+    Game.quads = {
+        player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
+        floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
+        wall = love.graphics.newQuad(300, 20, 40, 40, 520, 160),
+    }
+end
+
 function Game:initialize()
     self.map = Map.new_from_strings{
         "                                        ",
@@ -49,6 +63,7 @@ function Game:initialize()
     };
 
     self.player_loc = self.map:find_value('@'):shift()
+    self.map:at(self.player_loc, '.')
 end
 
 function Game:draw()
@@ -62,14 +77,27 @@ function Game:draw()
 
     for pt in self.map:each(self.player_loc-Point(10, 8), 21, 16) do
         local c = self.map:at(pt)
-        if c == '#' then g.setColor(128, 128, 128)
-        elseif c == '.' then g.setColor(0, 128, 0)
-        else g.setColor(0, 0, 0) end
 
-        g.rectangle('fill', pt.x*40, pt.y*40, 40, 40)
-        g.setColor(255, 0, 0)
-        g.rectangle('line', pt.x*40, pt.y*40, 40, 40)
+        if c == '#' then
+            g.setColor(255, 255, 255)
+            g.drawq(Game.images.walls, Game.quads.wall, pt.x*40, pt.y*40)
+        elseif c == '.' then
+            g.setColor(128, 128, 128)
+            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40)
+            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40)
+            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40+20)
+            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40+20)
+        else
+        end
+
+        -- g.setColor(255, 0, 0)
+        -- g.rectangle('line', pt.x*40, pt.y*40, 40, 40)
     end
+
+    g.setColor(255, 255, 255)
+    g.drawq(Game.images.chars, Game.quads.player,
+            self.player_loc.x * 40 + 4,
+            self.player_loc.y * 40 + 4)
 
     g.pop()
 end
