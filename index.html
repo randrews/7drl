@@ -48,4 +48,20 @@ The only problem is that makes the height 15 tiles and the width 20, which means
 I can't center the player on the screen because both dimensions would have to be
 odd. I'll solve that by centering them horizontally anyway, and drawing two
 columns of half-tiles.
+
+================================================================================
+
+Okay, this has been going easier than I expected. I've got a guy walking around
+the map, he can't walk through walls, and the map is being drawn with graphics.
+I'm going to start the status bar next, which means it's time for some actual
+game design: I need to know what statuses to put on it.
+
+We'll need health obviously, and what level you're on, and your current score. I
+also want some kind of inventory or something, and a button you can click to
+bring up a help screen. Messages will go somewhere else on the screen, so that's
+not a big deal (a long thin thing is bad for messages).
+
+So, level, score, health, all up top in a stack. Buttons to bring up help and
+quit on the bottom in a stack. In between, inventory. Maybe inventory and skills
+in an accordion view kind of thing?
 </pre>
