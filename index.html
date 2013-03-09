@@ -1,0 +1,51 @@
+<pre>
+Rogue-Break Coffee-Like
+A 7-Day Roguelike by Ross Andrews
+
+2013-03-08 =====================================================================
+
+I decided, pretty much on a whim, to do the 7DRL this year. I was planning on
+writing an RL anyway, so this just gives me a timeline.
+
+RBCL is going to be a fairly minimal RL: randomly-generated levels, simple
+monster AI (walk toward the player, basically), no shops or town or anything. A
+few potions / scrolls for spells, and you go down as far as you can. Your score
+will be the amount of gold you find, plus points for equipment, plus like 10,000
+for each level beyond the first you see.
+
+Implementation: I'm doing it in Love2D, because I already know that really well,
+and I'll use free graphics from "Tile Crusader" (found it on /r/gameassets).
+
+Schedule: I don't have a *huge* amount of time to devote to it, I can't take the
+week off work or anything. So I'm hoping to get a lot done this weekend and then
+work on it every night next week.
+
+- After Saturday I hope to have a guy, walking around the screen, with it
+scrolling as he moves, and a sidebar with his stats / whatever.
+
+- Sunday I devote to level generation and graphical fanciness (corner tiles for
+walls, etc).
+
+- Mon..Wed: enemies and fighting them.
+
+- Thurs..Fri: chests / potions / scrolls.
+
+That's my bare-minimum schedule. If I start to miss those goals I'll start to
+scale back, or declare the whole thing failed.
+
+2013-03-09 =====================================================================
+
+Starting development! I'm starting with the skeleton Love2D project I use, with
+middleclass, LoveFrames, inspect, and a bunch of little classes I wrote (Point,
+Map, List, Set, Tween, Promise, and Clock).
+
+The first question I'm dealing with is what size to make the window. I've
+settled on 1000 x 600. I want the map area to be a multiple of 40 pixels in each
+direction, because that's how big the graphics tiles I'm using are. This lets me
+have a 200 pixel status sidebar and the other 80% of the width as the map.
+
+The only problem is that makes the height 15 tiles and the width 20, which means
+I can't center the player on the screen because both dimensions would have to be
+odd. I'll solve that by centering them horizontally anyway, and drawing two
+columns of half-tiles.
+</pre>
