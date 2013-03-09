@@ -30,7 +30,7 @@ function Game:initialize()
         "            #.............#  #.....#    ",
         "            #.............#  ##.####    ",
         "            #.............#   #.#       ",
-        "            #.............#...#.#       ",
+        "            #.............#   #.#       ",
         "            #.............#####.#       ",
         "            #...@...............#       ",
         "            #.............#######       ",
@@ -89,9 +89,6 @@ function Game:draw()
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40+20)
         else
         end
-
-        -- g.setColor(255, 0, 0)
-        -- g.rectangle('line', pt.x*40, pt.y*40, 40, 40)
     end
 
     g.setColor(255, 255, 255)
@@ -100,4 +97,14 @@ function Game:draw()
             self.player_loc.y * 40 + 4)
 
     g.pop()
+end
+
+function Game:keypressed(key)
+    local pt = Point[key]
+    if pt then
+        local new_loc = pt + self.player_loc
+        if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
+            self.player_loc = new_loc
+        end
+    end
 end
