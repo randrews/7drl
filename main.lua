@@ -8,14 +8,18 @@ require('Map')
 require('Tween')
 require('Promise')
 
+require('Game')
+
 function love.load()
    math.randomseed(os.time())
    love.graphics.setBackgroundColor(0, 0, 20)
+   current_game = Game()
 end
 
 function love.draw()
    if FPS then love.graphics.setColor(255, 255, 255) ; love.graphics.print(FPS, 0, 0) end
    loveframes.draw()
+   current_game:draw()
 end
 
 function love.update(dt)
