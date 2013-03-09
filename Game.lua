@@ -1,6 +1,7 @@
 require('middleclass')
 require('Map')
 require('Point')
+require('Sidebar')
 
 Game = class('Game')
 
@@ -67,6 +68,12 @@ function Game:initialize()
 
     self.bg_effect = {value=255}
     self.key_repeat_clock = nil
+
+    self.health = 20
+    self.level = 1
+    self.score = 0
+
+    self.sidebar = Sidebar(self)
 end
 
 function Game:draw()
@@ -102,6 +109,8 @@ function Game:draw()
             self.player_loc.y * 40 + 4)
 
     g.pop()
+    g.setScissor()
+    self.sidebar:update()
 end
 
 function Game:keypressed(key)

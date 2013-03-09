@@ -9,6 +9,7 @@ require('Tween')
 require('Promise')
 
 require('Game')
+require('Sidebar')
 
 function love.load()
     math.randomseed(os.time())
@@ -21,6 +22,7 @@ function love.draw()
     if FPS then love.graphics.setColor(255, 255, 255) ; love.graphics.print(FPS, 0, 0) end
     loveframes.draw()
     current_game:draw()
+--    current_game.sidebar:update()
 end
 
 function love.update(dt)
