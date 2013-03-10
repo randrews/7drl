@@ -2,6 +2,7 @@ require('middleclass')
 require('Map')
 require('Point')
 require('Sidebar')
+require('Item')
 
 Game = class('Game')
 
@@ -11,12 +12,20 @@ function Game.static.setup()
     Game.images.chars = love.graphics.newImage("art/characters-32x32.png")
     Game.images.walls = love.graphics.newImage("art/wall-tiles-40x40.png")
     Game.images.floors = love.graphics.newImage("art/floor-tiles-20x20.png")
+    Game.images.equipment = love.graphics.newImage("art/floor-tiles-20x20.png")
 
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
         floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
         wall = love.graphics.newQuad(300, 20, 40, 40, 520, 160),
     }
+end
+
+-- Add start-of-game items, etc
+function Game.static.start(game)
+    local clothes = Clothes()
+    game.inventory:push(clothes)
+    clothes:activate(game)
 end
 
 function Game:initialize()
@@ -71,8 +80,11 @@ function Game:initialize()
     self.freeze = false
 
     self.health = 20
+    self.max_health = 20
+    self.armor = 0
     self.level = 1
     self.score = 0
+    self.inventory = List{}
 
     self.sidebar = Sidebar(self)
 end

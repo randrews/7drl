@@ -10,6 +10,7 @@ require('Promise')
 
 require('Game')
 require('Sidebar')
+require('Item')
 
 function love.load()
     math.randomseed(os.time())
@@ -17,6 +18,7 @@ function love.load()
     loveframes.util.SetActiveSkin('Rogue')
     Game.setup()
     current_game = Game()
+    Game.start(current_game)
 end
 
 function love.draw()

@@ -13,8 +13,15 @@ function Sidebar:initialize(game)
     self.health = loveframes.Create('text', self.panel)
     self.health:SetPos(10, 30)
 
+    self.armor = loveframes.Create('text', self.panel)
+    self.armor:SetPos(10, 50)
+
     self.score = loveframes.Create('text', self.panel)
-    self.score:SetPos(10, 50)
+    self.score:SetPos(10, 70)
+
+    self.inventory = loveframes.Create('list', self.panel)
+    self.inventory:SetPos(10, 90)
+    self.inventory:SetSize(180, 470)
 
     self.help = loveframes.Create('button', self.panel)
     self.help:SetSize(85, 20)
@@ -36,8 +43,11 @@ function Sidebar:update()
         health_color = {255, 0, 0}
     end
 
+    local health_str = self.game.health .. " / " .. self.game.max_health
+
     self.level:SetText{white, "Level " .. self.game.level}
-    self.health:SetText{white, "Health: ", health_color, self.game.health}
+    self.health:SetText{white, "Health: ", health_color, health_str}
+    self.armor:SetText{white, "Armor: " .. self.game.armor}
     self.score:SetText{white, "Score: " .. self.game.score}
 end
 
