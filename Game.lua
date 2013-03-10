@@ -25,13 +25,16 @@ end
 -- Add start-of-game items, etc
 function Game.static.start(game)
     local clothes = Clothes()
-    game:add_item(clothes)
     clothes:activate(game)
+    game:add_item(clothes)
 
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()
         game:add_item(potion)
     end
+
+    local clothes2 = Clothes()
+    game:add_item(clothes2)
 end
 
 function Game:initialize(strs)
@@ -57,13 +60,11 @@ end
 function Game:add_item(item)
     self.inventory:push(item)
     self.sidebar:add_item(item)
-    print(self.inventory:length())
 end
 
 function Game:remove_item(item)
     self.inventory = self.inventory:select(function(i) return i ~= item end)
     self.sidebar:remove_item(item)
-    print(self.inventory:length())
 end
 
 function Game:draw()

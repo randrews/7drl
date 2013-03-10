@@ -31,12 +31,53 @@ function Item:create_panel(panel, sidebar)
         self.use_button:SetPos(panel:GetWidth()-32, 0)
         self.use_button:SetText("Use")
         self.use_button.OnClick = function() self:use(sidebar.game) end
+    elseif self.wearable then
+        self.active_checkbox = loveframes.Create('checkbox', panel)
+        self.active_checkbox:SetSize(24, 24)
+        self.active_checkbox:SetPos(152, 4)
+        self.active_checkbox:SetChecked(self.active, true)
+        self.active_checkbox.OnChanged =
+            function()
+                if self.active_checkbox:GetChecked() then
+                    self:activate(sidebar.game)
+                else
+                    self:deactivate(sidebar.game)
+                end
+            end
     end
 end
 
+function Item:deactivate(game)
+    self.active = false
+
+    if self.active_checkbox then
+        self.active_checkbox:SetChecked(false, true)
+    end
+
+    self:on_deactivate(game)
+end
+
+function Item:activate(game)
+    if self.category then
+        game.inventory:map(function(i)
+                               if i.category == self.category and i.active then
+                                   i:deactivate(game)
+                               end
+                           end)
+    end
+
+    if self.active_checkbox then
+        self.active_checkbox:SetChecked(true, true)
+    end
+
+    self.active = true
+    self:on_activate(game)
+end
+
 -- Override me
-function Item:activate(game) end
-function Item:use(game) print("Using " .. self.name) end
+function Item:on_deactivate(game) end
+function Item:on_activate(game) end
+function Item:on_use(game) print("Using " .. self.name) end
 
 --------------------------------------------------------------------------------
 
@@ -52,8 +93,12 @@ function Clothes:initialize()
     }
 end
 
-function Clothes:activate(game)
+function Clothes:on_activate(game)
     game.armor = 1
+end
+
+function Clothes:on_deactivate(game)
+    game.armor = 0
 end
 
 --------------------------------------------------------------------------------
