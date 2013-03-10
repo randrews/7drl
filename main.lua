@@ -59,7 +59,7 @@ LEVEL = {
 
 function love.load()
     math.randomseed(os.time())
-    love.graphics.setBackgroundColor(0, 0, 0)
+    love.graphics.setBackgroundColor(15, 10, 10)
     loveframes.util.SetActiveSkin('Rogue')
     Game.setup()
     current_game = Game(LEVEL)

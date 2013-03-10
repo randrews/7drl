@@ -12,7 +12,23 @@ function Game.static.setup()
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
         floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
-        wall = love.graphics.newQuad(300, 20, 40, 40, 520, 160),
+    }
+
+    Game.quads.walls = {
+        se = love.graphics.newQuad(20, 20, 20, 20, 520, 160),
+        sw = love.graphics.newQuad(80, 20, 20, 20, 520, 160),
+        ne = love.graphics.newQuad(20, 80, 20, 20, 520, 160),
+        nw = love.graphics.newQuad(80, 80, 20, 20, 520, 160),
+
+        s = love.graphics.newQuad(40, 20, 40, 20, 520, 160),
+        n = love.graphics.newQuad(40, 80, 40, 20, 520, 160),
+        e = love.graphics.newQuad(20, 40, 20, 40, 520, 160),
+        w = love.graphics.newQuad(80, 40, 20, 40, 520, 160),
+
+        se_inner = love.graphics.newQuad(420, 20, 20, 20, 520, 160),
+        sw_inner = love.graphics.newQuad(440, 20, 20, 20, 520, 160),
+        ne_inner = love.graphics.newQuad(420, 40, 20, 20, 520, 160),
+        nw_inner = love.graphics.newQuad(440, 40, 20, 20, 520, 160),
     }
 end
 
@@ -75,12 +91,11 @@ function Game:draw()
             -(self.player_loc.x*40 - 9.5*40),
             -(self.player_loc.y*40 - 7*40))
 
-
     for pt in self.map:each(self.player_loc-Point(10, 8), 21, 16) do
         local c = self.map:at(pt)
 
         if c == '#' then
-            g.drawq(Game.images.walls, Game.quads.wall, pt.x*40, pt.y*40)
+            self:draw_wall(pt)
         elseif c == '.' then
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40)
             g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40)
@@ -95,6 +110,67 @@ function Game:draw()
     g.pop()
     g.setScissor()
     self.sidebar:update()
+end
+
+function Game:draw_wall(pt)
+    local g = love.graphics
+    local function neighbor(dir)
+        local t = self.map:at(pt + dir)
+        return t == '.' or t == ','
+    end
+
+    local n = neighbor(Point.north)
+    local s = neighbor(Point.south)
+    local e = neighbor(Point.east)
+    local w = neighbor(Point.west)
+
+    if n then
+        g.drawq(Game.images.walls, Game.quads.walls.n, pt.x*40, pt.y*40)
+    end
+
+    if s then
+        g.drawq(Game.images.walls, Game.quads.walls.s, pt.x*40, pt.y*40+20)
+    end
+
+    if e then
+        g.drawq(Game.images.walls, Game.quads.walls.e, pt.x*40+20, pt.y*40)
+    end
+
+    if w then
+        g.drawq(Game.images.walls, Game.quads.walls.w, pt.x*40, pt.y*40)
+    end
+
+    if neighbor(Point.southeast) then
+        if not s and not e then
+            g.drawq(Game.images.walls, Game.quads.walls.se, pt.x*40+20, pt.y*40+20)
+        elseif s and e then
+            g.drawq(Game.images.walls, Game.quads.walls.se_inner, pt.x*40+20, pt.y*40+20)
+        end
+    end
+
+    if neighbor(Point.southwest) then
+        if not s and not w then
+            g.drawq(Game.images.walls, Game.quads.walls.sw, pt.x*40, pt.y*40+20)
+        elseif s and w then
+            g.drawq(Game.images.walls, Game.quads.walls.sw_inner, pt.x*40, pt.y*40+20)
+        end
+    end
+
+    if neighbor(Point.northeast) then
+        if not n and not e then
+            g.drawq(Game.images.walls, Game.quads.walls.ne, pt.x*40+20, pt.y*40)
+        elseif n and e then
+            g.drawq(Game.images.walls, Game.quads.walls.ne_inner, pt.x*40+20, pt.y*40)
+        end
+    end
+
+    if neighbor(Point.northwest) then
+        if not n and not w then
+            g.drawq(Game.images.walls, Game.quads.walls.nw, pt.x*40, pt.y*40)
+        elseif n and w then
+            g.drawq(Game.images.walls, Game.quads.walls.nw_inner, pt.x*40, pt.y*40)
+        end
+    end
 end
 
 function Game:draw_player()

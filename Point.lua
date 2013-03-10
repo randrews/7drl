@@ -16,6 +16,11 @@ Point.south = Point(0, 1) ; Point.down = Point.south
 Point.west = Point(-1, 0) ; Point.left = Point.west
 Point.east = Point(1, 0) ; Point.right = Point.east
 
+Point.southeast = Point(1, 1)
+Point.southwest = Point(-1, 1)
+Point.northeast = Point(1, -1)
+Point.northwest = Point(-1, -1)
+
 function Point:copy()
    return Point(self.x, self.y)
 end
