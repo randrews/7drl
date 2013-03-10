@@ -1,9 +1,3 @@
-require('middleclass')
-require('Map')
-require('Point')
-require('Sidebar')
-require('Item')
-
 Game = class('Game')
 
 function Game.static.setup()
@@ -28,13 +22,14 @@ function Game.static.start(game)
     clothes:activate(game)
     game:add_item(clothes)
 
+    local dagger = Dagger()
+    dagger:activate(game)
+    game:add_item(dagger)
+
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()
         game:add_item(potion)
     end
-
-    local clothes2 = Clothes()
-    game:add_item(clothes2)
 end
 
 function Game:initialize(strs)

@@ -12,6 +12,7 @@ require('Promise')
 require('Game')
 require('Sidebar')
 require('Item')
+require('Weapon')
 
 LEVEL = {
     "                                        ",
