@@ -26,6 +26,8 @@ function Sidebar:initialize(game)
     self.inventory:SetPadding(0)
     self.inventory:SetSpacing(0)
 
+    self.inventory_panels = {} -- Map from Item to panel
+
     self.help = loveframes.Create('button', self.panel)
     self.help:SetSize(85, 20)
     self.help:SetPos(10, 570)
@@ -44,6 +46,15 @@ function Sidebar:add_item(item)
     panel:SetHeight(32)
     self.inventory:AddItem(panel)
     item:create_panel(panel, self)
+    self.inventory_panels[item] = panel
+end
+
+function Sidebar:remove_item(item)
+    local panel = self.inventory_panels[item]
+    if not panel then return end
+    self.inventory_panels[item] = nil
+    self.inventory:RemoveItem(panel)
+    panel:Remove()
 end
 
 function Sidebar:update()

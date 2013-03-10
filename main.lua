@@ -1,5 +1,6 @@
 require('middleclass')
 require('loveframes')
+require('inspect')
 
 require('Point')
 require('Clock')

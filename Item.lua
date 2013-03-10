@@ -11,6 +11,7 @@ function Item:init(opts)
     self.icon = opts.icon ; assert(instanceOf(Point, self.icon))
     self.image = opts.image ; assert(self.image)
     self.usable = opts.usable
+    self.wearable = opts.wearable
 end
 
 function Item:create_panel(panel, sidebar)
@@ -45,6 +46,7 @@ function Clothes:initialize()
     self:init{
         name = 'Clothes',
         category = 'armor',
+        wearable = true,
         icon = Point(3168, 0),
         image = Game.images.equipment
     }
@@ -65,6 +67,11 @@ function HealthPotion:initialize()
         icon = Point(160, 0),
         image = Game.images.extras
     }
+end
+
+function HealthPotion:use(game)
+    game:remove_item(self)
+    game.health = math.min(game.health + 10, game.max_health)
 end
 
 --------------------------------------------------------------------------------
