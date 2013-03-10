@@ -12,7 +12,8 @@ function Game.static.setup()
     Game.images.chars = love.graphics.newImage("art/characters-32x32.png")
     Game.images.walls = love.graphics.newImage("art/wall-tiles-40x40.png")
     Game.images.floors = love.graphics.newImage("art/floor-tiles-20x20.png")
-    Game.images.equipment = love.graphics.newImage("art/floor-tiles-20x20.png")
+    Game.images.equipment = love.graphics.newImage("art/equipment-32x32.png")
+    Game.images.extras = love.graphics.newImage("art/extras-32x32.png")
 
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),

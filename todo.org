@@ -1,4 +1,4 @@
-* Max health in sidebar
-* Armor in sidebar
-* copy image files
+* DONE Max health in sidebar
+* DONE Armor in sidebar
+* DONE copy image files
 * Paper doll
