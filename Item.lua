@@ -9,9 +9,19 @@ function Item:init(opts)
     self.category = opts.category
     self.active = opts.active
     self.icon = opts.icon ; assert(instanceOf(Point, self.icon))
+    self.paperdoll = opts.paperdoll ; assert(not self.paperdoll or instanceOf(Point, self.paperdoll))
     self.image = opts.image ; assert(self.image)
     self.usable = opts.usable
     self.wearable = opts.wearable
+
+    if self.paperdoll then
+        local w = self.image:getWidth()
+        local h = self.image:getHeight()
+        self.paperdoll_quad = love.graphics.newQuad(
+            self.paperdoll.x, self.paperdoll.y,
+            32, 32,
+            w, h)
+    end
 end
 
 function Item:create_panel(panel, sidebar)
@@ -89,6 +99,7 @@ function Clothes:initialize()
         category = 'armor',
         wearable = true,
         icon = Point(3168, 0),
+        paperdoll = Point(3136, 0),
         image = Game.images.equipment
     }
 end

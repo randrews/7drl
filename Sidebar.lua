@@ -98,7 +98,11 @@ function Sidebar:exit_dialog()
     no:SetSize(85, 20)
     no:SetPos(105, 90)
 
-    yes.OnClick = function() love.event.push('quit') end
+    yes.OnClick = function()
+                      love.event.push('quit')
+                      REALLY_QUIT = true
+                  end
+
     no.OnClick = function()
                      self.game:set_freeze(false)
                      dialog:Remove()

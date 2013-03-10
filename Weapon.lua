@@ -18,6 +18,7 @@ function Dagger:initialize()
     self:init{
         name = 'Dagger',
         icon = Point(544, 0),
+        paperdoll = Point(512, 0),
         image = Game.images.equipment,
         damage = {1, 3}
     }

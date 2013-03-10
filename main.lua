@@ -96,3 +96,10 @@ function love.keyreleased(key)
     current_game:keyreleased(key)
     loveframes.keyreleased(key)
 end
+
+function love.quit()
+    if current_game and not REALLY_QUIT then
+        current_game.sidebar:exit_dialog()
+        return true
+    end
+end

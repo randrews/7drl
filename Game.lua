@@ -90,13 +90,34 @@ function Game:draw()
         end
     end
 
-    g.drawq(Game.images.chars, Game.quads.player,
-            self.player_loc.x * 40 + 4,
-            self.player_loc.y * 40 + 4)
+    self:draw_player()
 
     g.pop()
     g.setScissor()
     self.sidebar:update()
+end
+
+function Game:draw_player()
+    local g = love.graphics
+
+    g.drawq(Game.images.chars, Game.quads.player,
+            self.player_loc.x * 40 + 4,
+            self.player_loc.y * 40 + 4)
+
+    local armor = self.inventory:select(function(i) return i.category == 'armor' and i.active end):shift()
+    local weapon = self.inventory:select(function(i) return i.category == 'weapon' and i.active end):shift()
+
+    if armor then
+        g.drawq(armor.image, armor.paperdoll_quad, 
+                self.player_loc.x * 40 + 4,
+                self.player_loc.y * 40 + 4)
+    end
+
+    if weapon then
+        g.drawq(weapon.image, weapon.paperdoll_quad, 
+                self.player_loc.x * 40 + 4,
+                self.player_loc.y * 40 + 4)
+    end
 end
 
 function Game:keypressed(key)
