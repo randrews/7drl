@@ -21,9 +21,8 @@ end
 
 function love.draw()
     if FPS then love.graphics.setColor(255, 255, 255) ; love.graphics.print(FPS, 0, 0) end
-    loveframes.draw()
     current_game:draw()
---    current_game.sidebar:update()
+    loveframes.draw()
 end
 
 function love.update(dt)

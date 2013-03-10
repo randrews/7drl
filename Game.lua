@@ -68,6 +68,7 @@ function Game:initialize()
 
     self.bg_effect = {value=255}
     self.key_repeat_clock = nil
+    self.freeze = false
 
     self.health = 20
     self.level = 1
@@ -114,6 +115,8 @@ function Game:draw()
 end
 
 function Game:keypressed(key)
+    if self.freeze then return end -- Ignore all input, loveframes has the show
+
     local pt = Point[key]
     if pt then
         local new_loc = pt + self.player_loc
@@ -126,6 +129,8 @@ function Game:keypressed(key)
         if not self.key_repeat_clock then
             self.key_repeat_clock = Clock(0.2, function() self:keypressed(key) end)
         end
+    elseif key == 'escape' then
+        self.sidebar:exit_dialog()
     end
 end
 
@@ -134,4 +139,9 @@ function Game:keyreleased()
         self.key_repeat_clock:stop()
         self.key_repeat_clock = nil
     end
+end
+
+function Game:set_freeze(f)
+    self.freeze = f
+    if f then self:keyreleased() end
 end
