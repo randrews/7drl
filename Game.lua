@@ -25,53 +25,17 @@ end
 -- Add start-of-game items, etc
 function Game.static.start(game)
     local clothes = Clothes()
-    game.inventory:push(clothes)
+    game:add_item(clothes)
     clothes:activate(game)
+
+    for n = 1, 2 do -- Start with two pots
+        local potion = HealthPotion()
+        game:add_item(potion)
+    end
 end
 
-function Game:initialize()
-    self.map = Map.new_from_strings{
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                             #######    ",
-        "            ###############  #.....#    ",
-        "            #.............#  #.....#    ",
-        "            #.............#  ##.####    ",
-        "            #.............#   #.#       ",
-        "            #.............#   #.#       ",
-        "            #.............#####.#       ",
-        "            #...@...............#       ",
-        "            #.............#######       ",
-        "            #.............#             ",
-        "            ###.###########             ",
-        "              #.#                       ",
-        "              #.#                       ",
-        "              #.#           #####       ",
-        "              #.#############...#       ",
-        "              #.................#       ",
-        "              #.#############...#       ",
-        "              #.#           #...#       ",
-        "     ##########.#########   #...#       ",
-        "     #..................#   #####       ",
-        "     #..................#               ",
-        "     #..................#               ",
-        "     #..................#               ",
-        "     ####################               ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-        "                                        ",
-    };
+function Game:initialize(strs)
+    self.map = Map.new_from_strings(strs)
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
@@ -88,6 +52,11 @@ function Game:initialize()
     self.inventory = List{}
 
     self.sidebar = Sidebar(self)
+end
+
+function Game:add_item(item)
+    self.inventory:push(item)
+    self.sidebar:add_item(item)
 end
 
 function Game:draw()

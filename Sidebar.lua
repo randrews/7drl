@@ -22,6 +22,9 @@ function Sidebar:initialize(game)
     self.inventory = loveframes.Create('list', self.panel)
     self.inventory:SetPos(10, 90)
     self.inventory:SetSize(180, 470)
+    self.inventory:SetDisplayType('vertical')
+    self.inventory:SetPadding(0)
+    self.inventory:SetSpacing(0)
 
     self.help = loveframes.Create('button', self.panel)
     self.help:SetSize(85, 20)
@@ -34,6 +37,13 @@ function Sidebar:initialize(game)
     self.exit:SetText('Exit')
 
     self.exit.OnClick = function() self:exit_dialog() end
+end
+
+function Sidebar:add_item(item)
+    local panel = loveframes.Create('panel')
+    panel:SetHeight(32)
+    self.inventory:AddItem(panel)
+    item:create_panel(panel, self)
 end
 
 function Sidebar:update()
