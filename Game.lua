@@ -8,11 +8,13 @@ function Game.static.setup()
     Game.images.floors = love.graphics.newImage("art/floor-tiles-20x20.png")
     Game.images.equipment = love.graphics.newImage("art/equipment-32x32.png")
     Game.images.extras = love.graphics.newImage("art/extras-32x32.png")
+    Game.images.decoration = love.graphics.newImage("art/decoration-20x20-40x40.png")
 
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
         floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
         hall_floor = love.graphics.newQuad(160, 80, 20, 20, 400, 260),
+        door = love.graphics.newQuad(40, 200, 40, 40, 120, 260),
     }
 
     Game.quads.walls = {
@@ -103,6 +105,9 @@ function Game:draw()
             self:draw_floor(pt, Game.quads.floor)
         elseif c == ',' then
             self:draw_floor(pt, Game.quads.hall_floor)
+        elseif c == '+' then
+            self:draw_floor(pt, Game.quads.hall_floor)
+            g.drawq(Game.images.decoration, Game.quads.door, pt.x*40, pt.y*40)
         else
         end
     end
