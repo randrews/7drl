@@ -8,6 +8,7 @@ require('List')
 require('Map')
 require('Tween')
 require('Promise')
+require('utils')
 
 require('Game')
 require('Sidebar')
@@ -15,55 +16,12 @@ require('Item')
 require('Weapon')
 require('MapGenerator')
 
-LEVEL = {
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                             #######    ",
-    "            ###############  #.....#    ",
-    "            #.............#  #.....#    ",
-    "            #.............#  ##.####    ",
-    "            #.............#   #.#       ",
-    "            #.............#   #.#       ",
-    "            #.............#####.#       ",
-    "            #...@...............#       ",
-    "            #.............#######       ",
-    "            #.............#             ",
-    "            ###.###########             ",
-    "              #.#                       ",
-    "              #.#                       ",
-    "              #.#           #####       ",
-    "              #.#############...#       ",
-    "              #.................#       ",
-    "              #.#############...#       ",
-    "              #.#           #...#       ",
-    "     ##########.#########   #...#       ",
-    "     #..................#   #####       ",
-    "     #..................#               ",
-    "     #..................#               ",
-    "     #..................#               ",
-    "     ####################               ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-    "                                        ",
-}
-
 function love.load()
     math.randomseed(os.time())
     love.graphics.setBackgroundColor(15, 10, 10)
     loveframes.util.SetActiveSkin('Rogue')
     Game.setup()
-    current_game = Game(LEVEL)
+    current_game = Game()
     Game.start(current_game)
 end
 
@@ -89,7 +47,12 @@ function love.mousereleased(x, y, button)
 end
 
 function love.keypressed(key, unicode)
-    current_game:keypressed(key)
+    if utils.capture_input() then
+        utils.keypressed(key)
+    else
+        current_game:keypressed(key)
+    end
+
     loveframes.keypressed(key, unicode)
 end
 

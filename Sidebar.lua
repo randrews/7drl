@@ -75,38 +75,16 @@ end
 function Sidebar:exit_dialog()
     self.game:set_freeze(true)
 
-    local dialog = loveframes.Create('frame')
-    dialog:SetSize(200, 120)
-    dialog:Center()
-    dialog:SetName('Exit')
-    dialog:SetModal(true)
-    dialog:ShowCloseButton(false)
+    local prom = utils.dialog('Exit', 'Really quit?', 'Yes', 'No')
 
-    local white = {255, 255, 255}
-    local text = loveframes.Create('text', dialog)
-    text:SetText{white, "Really quit?"}
-    text:Center()
-    text:SetY(50)
-
-    local yes = loveframes.Create('button', dialog)
-    yes:SetText('Yes')
-    yes:SetSize(85, 20)
-    yes:SetPos(10, 90)
-
-    local no = loveframes.Create('button', dialog)
-    no:SetText('No')
-    no:SetSize(85, 20)
-    no:SetPos(105, 90)
-
-    yes.OnClick = function()
-                      love.event.push('quit')
-                      REALLY_QUIT = true
-                  end
-
-    no.OnClick = function()
+    prom:add(function(btn)
+                 if btn == 'Yes' then
+                     love.event.push('quit')
+                     REALLY_QUIT = true
+                 elseif btn == 'No' then
                      self.game:set_freeze(false)
-                     dialog:Remove()
                  end
+             end)
 end
 
 return Sidebar
