@@ -8,7 +8,7 @@ end
 --------------------------------------------------------------------------------
 
 function MapGenerator:generate()
-    self.maze = self:create_maze(10, 10)
+    self.maze = self:create_maze(7, 7)
     self:create_rooms(self.maze) -- Turn 1/3 of the cells into rooms
     self.map = self:expand(self.maze) -- Make a map that follows the layout of the maze
     self:add_walls(self.map) -- Add walls and doors
@@ -135,8 +135,8 @@ function MapGenerator:expand(maze)
         if t.room then
             local x = math.random(5)
             local y = math.random(5)
-            local w = math.random(5)+(5-x)
-            local h = math.random(5)+(5-y)
+            local w = math.random(4)+(5-x)+1
+            local h = math.random(4)+(5-y)+1
 
             for f in map:each(Point(pt.x*11 + x, pt.y*11 + y), w, h) do
                 map:at(f, '.')

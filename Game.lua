@@ -15,6 +15,7 @@ function Game.static.setup()
         floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
         hall_floor = love.graphics.newQuad(160, 80, 20, 20, 400, 260),
         door = love.graphics.newQuad(40, 200, 40, 40, 120, 260),
+        open_door = love.graphics.newQuad(80, 200, 40, 40, 120, 260),
     }
 
     Game.quads.walls = {
@@ -108,6 +109,9 @@ function Game:draw()
         elseif c == '+' then
             self:draw_floor(pt, Game.quads.hall_floor)
             g.drawq(Game.images.decoration, Game.quads.door, pt.x*40, pt.y*40)
+        elseif c == '_' then
+            self:draw_floor(pt, Game.quads.hall_floor)
+            g.drawq(Game.images.decoration, Game.quads.open_door, pt.x*40, pt.y*40)
         else
         end
     end
@@ -117,7 +121,7 @@ function Game:draw()
     g.pop()
     g.setScissor()
     self.sidebar:update()
-    self:draw_minimap()
+    -- self:draw_minimap()
 end
 
 function Game:draw_minimap()
@@ -148,7 +152,7 @@ function Game:draw_wall(pt)
     local g = love.graphics
     local function neighbor(dir)
         local t = self.map:at(pt + dir)
-        return t == '.' or t == ','
+        return t == '.' or t == ',' or t == '+' or t == '_'
     end
 
     local n = neighbor(Point.north)
@@ -235,13 +239,20 @@ function Game:keypressed(key)
     if pt then
         local new_loc = pt + self.player_loc
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
-            self.player_loc = new_loc
+            if self.map:at(new_loc) == '+' then -- Open door
+                self.map:at(new_loc, '_')
+            else
+                self.player_loc = new_loc
+            end
         else
             self.bg_effect = Tween(140, 255, 0.5)
         end
 
         if not self.key_repeat_clock then
-            self.key_repeat_clock = Clock(0.2, function() self:keypressed(key) end)
+            local delay = 0.2
+            -- Go faster if held down in a hallway
+            if self.map:at(self.player_loc) == ',' then delay = 0.1 end
+            self.key_repeat_clock = Clock(delay, function() self:keypressed(key) end)
         end
     elseif key == 'escape' then
         self.sidebar:exit_dialog()
