@@ -13,6 +13,7 @@ require('Game')
 require('Sidebar')
 require('Item')
 require('Weapon')
+require('MapGenerator')
 
 LEVEL = {
     "                                        ",

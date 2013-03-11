@@ -66,6 +66,8 @@ function Game:initialize(strs)
     self.inventory = List{}
 
     self.sidebar = Sidebar(self)
+
+    self.maze = MapGenerator().map
 end
 
 function Game:add_item(item)
@@ -110,6 +112,17 @@ function Game:draw()
     g.pop()
     g.setScissor()
     self.sidebar:update()
+
+    for pt in self.maze:each() do
+        g.setColor(0, 0, 0)
+        g.rectangle('fill', pt.x*8, pt.y*8, 8, 8)
+        g.setColor(255, 255, 255)
+        local t = self.maze:at(pt)
+        if t.n then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+4, pt.y*8) end
+        if t.s then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+4, pt.y*8+8) end
+        if t.e then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+8, pt.y*8+4) end
+        if t.w then g.line(pt.x*8+4, pt.y*8+4, pt.x*8, pt.y*8+4) end
+    end
 end
 
 function Game:draw_wall(pt)
