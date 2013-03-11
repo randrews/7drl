@@ -149,10 +149,13 @@ end
 
 function MapGenerator:add_walls(map)
     local function floor(map, pt) return map:at(pt) == '.' or map:at(pt) == ',' end
+    local function room_floor(map, pt) return map:at(pt) == '.' end
 
     for pt in map:each() do
         if not floor(map, pt) and not map:neighbors(pt, floor, true):empty() then
             map:at(pt, '#')
+        elseif map:at(pt) == ',' and not map:neighbors(pt, room_floor):empty() then
+            map:at(pt, '+')
         end
     end
 end
