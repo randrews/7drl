@@ -1,4 +1,21 @@
 * DONE Max health in sidebar
 * DONE Armor in sidebar
-* DONE copy image files
-* Paper doll
+* DONE Copy image files
+* DONE Paper doll
+
+* Monday
+** Visibility
+** Minimap
+** Dialog keyboard input
+** "Generating map" dialog
+
+* Tuesday
+** Enemies
+** Enemies wake up
+** Enemies walk toward player
+** Enemies can be hit, killed
+** Enemies hit back!
+
+* Wednesday
+** Enemies drop things
+** Catch-up
