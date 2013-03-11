@@ -86,6 +86,19 @@ function List:method_map(fn_name, ...)
    return result
 end
 
+function List:each(fn, ...)
+   for _, item in ipairs(self.items) do
+      fn(item, ...)
+   end
+end
+
+function List:method_each(fn, ...)
+   for _, item in ipairs(self.items) do
+      local fn = item[fn_name]
+      fn(item, ...)
+   end
+end
+
 function List:select(fn, ...)
    local result = List()
 

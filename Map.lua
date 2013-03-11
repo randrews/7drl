@@ -153,6 +153,36 @@ function Map:neighbors(pt, fn, diag)
    return fit
 end
 
+function Map:connected(start, fn, diag)
+    local points = List{start}
+    local closed = {} -- map from x+y*width to Point
+    local open = List{start}
+    -- Turn a point into a number so we can use it a a table key
+    local function num(pt) return pt.x + pt.y * self.width end
+
+    while not open:empty() do
+        local p = open:shift()
+        local n = self:neighbors(p, fn, diag)
+
+        n:each(function(pt)
+                   if not closed[num(pt)] then
+                       open:push(pt)
+                       points:push(pt)
+                   end
+               end)
+
+        closed[num(p)] = true
+    end
+
+    return points
+end
+
+function Map:connected_value(start, value, diag)
+    return self:connected(start,
+                          function(map, p) return map:at(p) == value end,
+                          diag)
+end
+
 ----------------------------------------
 
 function Map.static.test()
