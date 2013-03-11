@@ -133,11 +133,18 @@ function Map:full(pt)
    return not self:empty(pt)
 end
 
-function Map:neighbors(pt, fn)
+function Map:neighbors(pt, fn, diag)
    local all = {pt + Point(-1, 0),
                 pt + Point(1, 0),
                 pt + Point(0, -1),
                 pt + Point(0, 1)}
+
+   if diag then
+       table.insert(all, pt+Point.southwest)
+       table.insert(all, pt+Point.northwest)
+       table.insert(all, pt+Point.northeast)
+       table.insert(all, pt+Point.southeast)
+   end
 
    local fit = List{}
    for _, p in ipairs(all) do

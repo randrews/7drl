@@ -12,6 +12,7 @@ function Game.static.setup()
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
         floor = love.graphics.newQuad(340, 0, 20, 20, 400, 260),
+        hall_floor = love.graphics.newQuad(160, 80, 20, 20, 400, 260),
     }
 
     Game.quads.walls = {
@@ -49,7 +50,9 @@ function Game.static.start(game)
 end
 
 function Game:initialize(strs)
-    self.map = Map.new_from_strings(strs)
+    self.generator = MapGenerator()
+    self.map = self.generator.map
+    self.maze = self.generator.maze
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
@@ -66,8 +69,6 @@ function Game:initialize(strs)
     self.inventory = List{}
 
     self.sidebar = Sidebar(self)
-
-    self.maze = MapGenerator().map
 end
 
 function Game:add_item(item)
@@ -99,10 +100,9 @@ function Game:draw()
         if c == '#' then
             self:draw_wall(pt)
         elseif c == '.' then
-            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40)
-            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40)
-            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40, pt.y*40+20)
-            g.drawq(Game.images.floors, Game.quads.floor, pt.x*40+20, pt.y*40+20)
+            self:draw_floor(pt, Game.quads.floor)
+        elseif c == ',' then
+            self:draw_floor(pt, Game.quads.hall_floor)
         else
         end
     end
@@ -112,6 +112,11 @@ function Game:draw()
     g.pop()
     g.setScissor()
     self.sidebar:update()
+    self:draw_minimap()
+end
+
+function Game:draw_minimap()
+    local g = love.graphics
 
     for pt in self.maze:each() do
         g.setColor(0, 0, 0)
@@ -124,6 +129,14 @@ function Game:draw()
         if t.w then g.line(pt.x*8+4, pt.y*8+4, pt.x*8, pt.y*8+4) end
         if t.room then g.rectangle('fill', pt.x*8+2, pt.y*8+2, 4, 4) end
     end
+end
+
+function Game:draw_floor(pt, quad)
+    local g = love.graphics
+    g.drawq(Game.images.floors, quad, pt.x*40, pt.y*40)
+    g.drawq(Game.images.floors, quad, pt.x*40+20, pt.y*40)
+    g.drawq(Game.images.floors, quad, pt.x*40, pt.y*40+20)
+    g.drawq(Game.images.floors, quad, pt.x*40+20, pt.y*40+20)
 end
 
 function Game:draw_wall(pt)
