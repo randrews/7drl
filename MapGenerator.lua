@@ -99,32 +99,35 @@ function MapGenerator:create_rooms(maze)
 end
 
 function MapGenerator:expand(maze)
-    local map = Map(maze.width*11, maze.height*11)
+    local tile = 7 -- dimensions of a tile: must be odd!
+    local middle = math.floor(tile/2)
+
+    local map = Map(maze.width*tile, maze.height*tile)
 
     -- Lay out hallways
     for pt in maze:each() do
         local t = maze:at(pt)
         if t.n then
-            for n=0,5 do
-                map:at(Point(pt.x*11+5, pt.y*11+n), ',')
+            for n=0,middle do
+                map:at(Point(pt.x*tile+middle, pt.y*tile+n), ',')
             end
         end
 
         if t.s then
-            for n=5, 10 do
-                map:at(Point(pt.x*11+5, pt.y*11+n), ',')
+            for n=middle, tile-1 do
+                map:at(Point(pt.x*tile+middle, pt.y*tile+n), ',')
             end
         end
 
         if t.e then
-            for n=5, 10 do
-                map:at(Point(pt.x*11+n, pt.y*11+5), ',')
+            for n=middle, tile-1 do
+                map:at(Point(pt.x*tile+n, pt.y*tile+middle), ',')
             end
         end
 
         if t.w then
-            for n=0, 5 do
-                map:at(Point(pt.x*11+n, pt.y*11+5), ',')
+            for n=0, middle do
+                map:at(Point(pt.x*tile+n, pt.y*tile+middle), ',')
             end
         end
     end
@@ -133,12 +136,12 @@ function MapGenerator:expand(maze)
     for pt in maze:each() do
         local t = maze:at(pt)
         if t.room then
-            local x = math.random(5)
-            local y = math.random(5)
-            local w = math.random(4)+(5-x)+1
-            local h = math.random(4)+(5-y)+1
+            local x = math.random(middle)
+            local y = math.random(middle)
+            local w = math.random(middle-1)+(middle-x)+1
+            local h = math.random(middle-1)+(middle-y)+1
 
-            for f in map:each(Point(pt.x*11 + x, pt.y*11 + y), w, h) do
+            for f in map:each(Point(pt.x*tile + x, pt.y*tile + y), w, h) do
                 map:at(f, '.')
             end
         end

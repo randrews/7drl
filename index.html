@@ -115,4 +115,18 @@ occasional treasure drops, the game would play pretty much the same. So it's
 really just for looks, and I can fake something that looks pretty decent.
 
 ================================================================================
+
+Maps! That look pretty good actually! I'm using the usual map algorithm, the one
+I learned in college that I've probably coded a dozen times now. It works on a
+square grid, connecting cells of the grid to adjacent cells through hallways, so
+you get a maze-like structure. I made a couple modifications to allow hallways
+to form loops (the usual algorithm makes a tree) and then I turn that into a map
+by making each cell represent an 11x11 tile that I (might) place a random room
+into.
+
+It takes a little time to make the maps because they end up being fairly large
+once they're expanded, and doing stuff like placing walls becomes a pain. I'll
+probably shrink the tiles to 7x7.
+
+================================================================================
 </pre>
