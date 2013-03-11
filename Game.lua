@@ -122,6 +122,7 @@ function Game:draw()
         if t.s then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+4, pt.y*8+8) end
         if t.e then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+8, pt.y*8+4) end
         if t.w then g.line(pt.x*8+4, pt.y*8+4, pt.x*8, pt.y*8+4) end
+        if t.room then g.rectangle('fill', pt.x*8+2, pt.y*8+2, 4, 4) end
     end
 end
 
