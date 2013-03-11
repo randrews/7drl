@@ -28,16 +28,24 @@ function Sidebar:initialize(game)
 
     self.inventory_panels = {} -- Map from Item to panel
 
+    self.map = loveframes.Create('button', self.panel)
+    self.map:SetSize(53, 20)
+    self.map:SetPos(10, 570)
+    self.map:SetText('Map')
+
     self.help = loveframes.Create('button', self.panel)
-    self.help:SetSize(85, 20)
-    self.help:SetPos(10, 570)
+    self.help:SetSize(54, 20)
+    self.help:SetPos(73, 570)
     self.help:SetText('Help')
 
     self.exit = loveframes.Create('button', self.panel)
-    self.exit:SetSize(85, 20)
-    self.exit:SetPos(105, 570)
+    self.exit:SetSize(53, 20)
+    self.exit:SetPos(137, 570)
     self.exit:SetText('Exit')
 
+    self.minimap = nil
+
+    self.map.OnClick = function() self:toggle_map() end
     self.exit.OnClick = function() self:exit_dialog() end
 end
 
@@ -70,6 +78,33 @@ function Sidebar:update()
     self.health:SetText{white, "Health: ", health_color, health_str}
     self.armor:SetText{white, "Armor: " .. self.game.armor}
     self.score:SetText{white, "Score: " .. self.game.score}
+end
+
+function Sidebar:toggle_map()
+    if self.minimap then
+        self.minimap.frame:Remove()
+        self.minimap = nil
+    else
+        local minimap = {}
+        minimap.frame = loveframes.Create('frame')
+        minimap.frame:SetName('Map')
+        minimap.frame:SetSize(196, 196+25)
+        minimap.frame:SetPos(10, 10)
+        minimap.frame.OnClose = function() self:toggle_map() end
+
+        minimap.image = loveframes.Create('image', minimap.frame)
+        minimap.image:SetSize(196, 196)
+        minimap.image:SetPos(0, 25)
+        minimap.image:SetImage(function() self:draw_minimap() end)
+
+        self.minimap = minimap
+    end
+end
+
+function Sidebar:draw_minimap()
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.line(0, 0, 196, 196)
+    love.graphics.line(0, 196, 196, 0)
 end
 
 function Sidebar:exit_dialog()

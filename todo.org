@@ -6,7 +6,10 @@
 * Monday
 ** Visibility
 ** Minimap
-** Dialog keyboard input
+*** DONE Make minimap dialog
+*** Draw minimap
+*** Minimap handles visibility
+** DONE Dialog keyboard input
 ** "Generating map" dialog
 
 * Tuesday
