@@ -33,6 +33,7 @@ end
 
 function love.update(dt)
     FPS = math.floor(1 / dt)
+    -- print(FPS)
     Clock.update(dt)
     Tween.update(dt)
     loveframes.update(dt)

@@ -56,9 +56,12 @@ function Game:initialize(strs)
     self.generator = MapGenerator()
     self.map = self.generator.map
     self.maze = self.generator.maze
+    self.visibility = Map(self.map.width, self.map.height)
+    self.visibility:clear(false)
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
+    self:reveal(self.player_loc)
 
     self.bg_effect = {value=255}
     self.key_repeat_clock = nil
@@ -72,6 +75,20 @@ function Game:initialize(strs)
     self.inventory = List{}
 
     self.sidebar = Sidebar(self)
+end
+
+function Game:reveal(pt)
+    local v = self.map:at(pt)
+    local hidden = self.map:connected_value(pt, v)
+    hidden:each(function(pt)
+                    self.visibility:at(pt, true)
+                    -- Also reveal all the neighbors, so we get to see
+                    -- pretty walls
+                    self.map:neighbors(pt, nil, true):each(
+                        function(pt)
+                            self.visibility:at(pt, true)
+                        end)
+                end)
 end
 
 function Game:add_item(item)
@@ -99,20 +116,23 @@ function Game:draw()
 
     for pt in self.map:each(self.player_loc-Point(10, 8), 21, 16) do
         local c = self.map:at(pt)
+        local v = self.visibility:at(pt)
 
-        if c == '#' then
-            self:draw_wall(pt)
-        elseif c == '.' then
-            self:draw_floor(pt, Game.quads.floor)
-        elseif c == ',' then
-            self:draw_floor(pt, Game.quads.hall_floor)
-        elseif c == '+' then
-            self:draw_floor(pt, Game.quads.hall_floor)
-            g.drawq(Game.images.decoration, Game.quads.door, pt.x*40, pt.y*40)
-        elseif c == '_' then
-            self:draw_floor(pt, Game.quads.hall_floor)
-            g.drawq(Game.images.decoration, Game.quads.open_door, pt.x*40, pt.y*40)
-        else
+        if v then
+            if c == '#' then
+                self:draw_wall(pt)
+            elseif c == '.' then
+                self:draw_floor(pt, Game.quads.floor)
+            elseif c == ',' then
+                self:draw_floor(pt, Game.quads.hall_floor)
+            elseif c == '+' then
+                self:draw_floor(pt, Game.quads.hall_floor)
+                g.drawq(Game.images.decoration, Game.quads.door, pt.x*40, pt.y*40)
+            elseif c == '_' then
+                self:draw_floor(pt, Game.quads.hall_floor)
+                g.drawq(Game.images.decoration, Game.quads.open_door, pt.x*40, pt.y*40)
+            else
+            end
         end
     end
 
@@ -240,7 +260,7 @@ function Game:keypressed(key)
         local new_loc = pt + self.player_loc
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             if self.map:at(new_loc) == '+' then -- Open door
-                self.map:at(new_loc, '_')
+                self:open_door(new_loc)
             else
                 self.player_loc = new_loc
             end
@@ -257,6 +277,23 @@ function Game:keypressed(key)
     elseif key == 'escape' then
         self.sidebar:exit_dialog()
     end
+end
+
+function Game:open_door(pt)
+    self.map:at(pt, '_')
+
+    local hidden = self.map:neighbors(pt,
+                                      function(_, p)
+                                          local v = self.map:at(p)
+                                          return v == '.' or v == ','
+                                      end,
+                                      true)
+
+    hidden:each(function(p)
+                    if not self.visibility:at(p) then
+                        self:reveal(p)
+                    end
+                end)
 end
 
 function Game:keyreleased()

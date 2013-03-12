@@ -4,11 +4,14 @@ require('List')
 
 Map = class('Map')
 
-function Map:initialize(width, height)
-   self.width = width
-   self.height = height
-   self.cells = List{}
-   for i=1, width*height do self.cells:push(0) end
+function Map:initialize(width, height, fill)
+    fill = fill or 0
+    self.width = width
+    self.height = height
+
+    local c = {}
+    for i=1, width*height do c[i]=fill end
+    self.cells = List(c)
 end
 
 function Map.static.new_from_strings(strs)
@@ -146,9 +149,14 @@ function Map:neighbors(pt, fn, diag)
        table.insert(all, pt+Point.southeast)
    end
 
+   if fn and type(fn) ~= 'function' then
+       local val = fn
+       fn = function(_, p) return self:at(p) == val end
+   end
+
    local fit = List{}
    for _, p in ipairs(all) do
-      if self:inside(p) and (not fn or fn(self, p)) then fit:push(p) end
+       if self:inside(p) and (not fn or fn(self, p)) then fit:push(p) end
    end
    return fit
 end
