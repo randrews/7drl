@@ -101,10 +101,71 @@ function Sidebar:toggle_map()
     end
 end
 
+function Sidebar:create_minimap_canvas()
+    local g = love.graphics
+    local canvas = self.minimap.canvas or g.newCanvas()
+
+    g.setCanvas(canvas)
+    g.push()
+
+    -- Ugly hack:
+    -- -----------------------------------------------------
+    -- Drawing to a canvas doesn't reset the transformation
+    -- matrix, and there's no way to do so by hand. So we'll
+    -- end up drawing the minimap on the canvas wherever the
+    -- window happens to be on the screen, which is no good.
+    -- But, we know where the window *is*, so we can just
+    -- translate backwards from that to draw in the upper-
+    -- left of the canvas anyway, as long as there are no
+    -- transformations other than "translate to the upper-
+    -- left of minimap.image" in effect. Which there should
+    -- never be.
+
+    local ix, iy = self.minimap.image:GetPos()
+    g.translate(-ix, -iy)
+    g.setScissor() -- Also, we have to clear the scissor ourselves
+
+    -- -----------------------------------------------------
+
+    g.setColor(0, 0, 0)
+    g.rectangle('fill', 0, 0, 196, 196)
+
+    for pt in self.game.map:each() do
+        if self.game.visibility:at(pt) then
+            local c = self.game.map:at(pt)
+
+            if c == '.' or c == ',' or c == '_' then
+                g.setColor(140, 140, 140)
+                g.rectangle('fill', pt.x*4, pt.y*4, 4, 4)
+            elseif c == '+' then
+                g.setColor(255, 140, 0)
+                g.rectangle('fill', pt.x*4, pt.y*4, 4, 4)
+            end
+        end
+    end
+
+    g.pop()
+    g.setCanvas() 
+
+    return canvas
+end
+
+function Sidebar:redraw_minimap()
+    if self.minimap then self.minimap.redraw = true end
+end
+
 function Sidebar:draw_minimap()
-    love.graphics.setColor(255, 255, 255)
-    love.graphics.line(0, 0, 196, 196)
-    love.graphics.line(0, 196, 196, 0)
+    if not self.minimap.canvas or self.minimap.redraw then
+        self.minimap.canvas = self:create_minimap_canvas()
+        self.minimap.redraw = false
+    end
+
+    love.graphics.draw(self.minimap.canvas, 0, 0)
+    love.graphics.setColor(0, 255, 0)
+    love.graphics.rectangle('fill',
+                            self.game.player_loc.x*4,
+                            self.game.player_loc.y*4,
+                            4, 4)
 end
 
 function Sidebar:exit_dialog()

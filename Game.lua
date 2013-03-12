@@ -276,6 +276,8 @@ function Game:keypressed(key)
         end
     elseif key == 'escape' then
         self.sidebar:exit_dialog()
+    elseif key == 'm' then
+        self.sidebar:toggle_map()
     end
 end
 
@@ -294,6 +296,8 @@ function Game:open_door(pt)
                         self:reveal(p)
                     end
                 end)
+
+    self.sidebar:redraw_minimap() -- This is a great candidate for pubsub
 end
 
 function Game:keyreleased()
