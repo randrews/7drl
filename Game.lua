@@ -50,6 +50,8 @@ function Game.static.start(game)
         local potion = HealthPotion()
         game:add_item(potion)
     end
+
+    game:log("Welcome to the dungeon!")
 end
 
 function Game:initialize(strs)
@@ -278,6 +280,8 @@ function Game:keypressed(key)
         self.sidebar:exit_dialog()
     elseif key == 'm' then
         self.sidebar:toggle_map()
+    elseif key == 'l' then
+        self.sidebar:toggle_log()
     end
 end
 
@@ -298,6 +302,10 @@ function Game:open_door(pt)
                 end)
 
     self.sidebar:redraw_minimap() -- This is a great candidate for pubsub
+end
+
+function Game:log(str, color)
+    self.sidebar:add_log_message(str, color)
 end
 
 function Game:keyreleased()

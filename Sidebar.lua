@@ -7,6 +7,7 @@ function Sidebar:initialize(game)
     self.panel:SetSize(200, 600)
     self.panel:SetPos(800, 0)
 
+    -- Status box
     self.level = loveframes.Create('text', self.panel)
     self.level:SetPos(10, 10)
 
@@ -19,34 +20,46 @@ function Sidebar:initialize(game)
     self.score = loveframes.Create('text', self.panel)
     self.score:SetPos(10, 70)
 
+    -- Inventory
     self.inventory = loveframes.Create('list', self.panel)
     self.inventory:SetPos(10, 90)
-    self.inventory:SetSize(180, 470)
+    self.inventory:SetSize(180, 440)
     self.inventory:SetDisplayType('vertical')
     self.inventory:SetPadding(0)
     self.inventory:SetSpacing(0)
 
     self.inventory_panels = {} -- Map from Item to panel
 
+    -- Buttons (row 1)
+    self.log = loveframes.Create('button', self.panel)
+    self.log:SetSize(85, 20)
+    self.log:SetPos(105, 540)
+    self.log:SetText('Log')
+
     self.map = loveframes.Create('button', self.panel)
-    self.map:SetSize(53, 20)
-    self.map:SetPos(10, 570)
+    self.map:SetSize(85, 20)
+    self.map:SetPos(10, 540)
     self.map:SetText('Map')
 
+    -- Buttons (row 2)
     self.help = loveframes.Create('button', self.panel)
-    self.help:SetSize(54, 20)
-    self.help:SetPos(73, 570)
+    self.help:SetSize(85, 20)
+    self.help:SetPos(10, 570)
     self.help:SetText('Help')
 
     self.exit = loveframes.Create('button', self.panel)
-    self.exit:SetSize(53, 20)
-    self.exit:SetPos(137, 570)
+    self.exit:SetSize(85, 20)
+    self.exit:SetPos(105, 570)
     self.exit:SetText('Exit')
 
     self.minimap = nil
 
+    -- Button events
     self.map.OnClick = function() self:toggle_map() end
     self.exit.OnClick = function() self:exit_dialog() end
+    self.log.OnClick = function() self:toggle_log() end
+
+    self:create_log_window()
 end
 
 function Sidebar:add_item(item)
@@ -78,6 +91,52 @@ function Sidebar:update()
     self.health:SetText{white, "Health: ", health_color, health_str}
     self.armor:SetText{white, "Armor: " .. self.game.armor}
     self.score:SetText{white, "Score: " .. self.game.score}
+end
+
+function Sidebar:create_log_window()
+    if self.log_window then
+        self.log_window.frame:Remove()
+        self.log_window = nil
+    else
+        local log = {}
+        log.frame = loveframes.Create('frame')
+        log.frame:ShowCloseButton(false)
+        log.frame:SetName('Message Log')
+        log.frame:SetSize(300, 150+25)
+        log.frame:SetPos(490, 415)
+        log.frame.OnClose = function() self:toggle_log() ; return false end
+
+        local list = loveframes.Create('list', log.frame)
+        list:SetSize(300, 150)
+        list:SetPos(0, 25)
+        list:SetPadding(5)
+
+        log.text = loveframes.Create('text')
+        list:AddItem(log.text)
+
+        log.lines = List()
+        self.log_window = log
+    end
+end
+
+function Sidebar:add_log_message(str, color)
+    color = color or {255, 255, 255}
+    self.log_window.lines:unshift(str .. " \n ")
+    self.log_window.lines:unshift(color)
+
+    while self.log_window.lines:length() > 200 do
+        self.log_window.lines:pop()
+    end
+
+    self.log_window.text:SetText(self.log_window.lines.items)
+end
+
+function Sidebar:toggle_log()
+    if self.log_window.frame:GetVisible() then
+        self.log_window.frame:SetVisible(false)
+    else
+        self.log_window.frame:SetVisible(true)
+    end
 end
 
 function Sidebar:toggle_map()

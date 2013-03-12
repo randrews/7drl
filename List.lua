@@ -18,7 +18,7 @@ end
 
 -- Add to beginning
 function List:unshift(item)
-   table.insert(self.items, item, 1)
+   table.insert(self.items, 1, item)
 end
 
 -- Remove from beginning
