@@ -2,25 +2,34 @@
 * DONE Armor in sidebar
 * DONE Copy image files
 * DONE Paper doll
-
 * Monday
 ** DONE Visibility
-** Minimap
+** DONE Minimap
 *** DONE Make minimap dialog
-*** Draw minimap
-*** Minimap handles visibility
+*** DONE Draw minimap
+*** DONE Minimap handles visibility
+*** DONE Minimap doesn't kill framerate
 ** DONE Dialog keyboard input
-
+** DONE Key shortcut to toggle map
+** Console output
 * Tuesday
 ** Enemies
 ** Enemies wake up
 ** Enemies walk toward player
 ** Enemies can be hit, killed
 ** Enemies hit back!
-
 * Wednesday
 ** Enemies drop things
-** "Generating map" dialog
-** Nicer key repeat rules
-*** Hold down: do nothing for 1 sec, then repeat 0.1
+** Stairs
 ** Catch-up
+* Thursday
+** Items
+** Weapons
+** Ranged weapons
+** Spells (cauldron system?)
+* Friday
+** Packaging releases
+* Wishlist
+** Nicer key repeat rules
+   Hold down: do nothing for 1 sec, then repeat 0.1
+** "Generating map" dialog
