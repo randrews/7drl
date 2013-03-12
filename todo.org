@@ -4,13 +4,12 @@
 * DONE Paper doll
 
 * Monday
-** Visibility
+** DONE Visibility
 ** Minimap
 *** DONE Make minimap dialog
 *** Draw minimap
 *** Minimap handles visibility
 ** DONE Dialog keyboard input
-** "Generating map" dialog
 
 * Tuesday
 ** Enemies
@@ -21,4 +20,7 @@
 
 * Wednesday
 ** Enemies drop things
+** "Generating map" dialog
+** Nicer key repeat rules
+*** Hold down: do nothing for 1 sec, then repeat 0.1
 ** Catch-up

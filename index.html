@@ -158,4 +158,16 @@ Love doesn't support native extensions so I can't. And I have no interest in
 trying to implement raycasting from a blank piece of paper this evening.
 
 ================================================================================
+
+And we have visibility. It took more effort than I expected: first I introduced
+a bug doing something I thought was innocuous, which I had to find. Then I
+discovered that visibility dropped the framerate from the 50s to the 20s; still
+fast enough but worrisome, so I redid it. Now the rule is, when you open a door,
+we find the connected un-revealed hallway or room, reveal it, then reveal any
+cells adjacent to it (because those contain walls we want to see). Once there
+are enemies I'll need to broadcast a room-entered event to them or something, in
+case I want to trigger any enemy behavior off the player entering a room they're
+in.
+
+================================================================================
 </pre>
