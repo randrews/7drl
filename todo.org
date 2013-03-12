@@ -1,7 +1,8 @@
-* DONE Max health in sidebar
-* DONE Armor in sidebar
-* DONE Copy image files
-* DONE Paper doll
+* DONE Sunday
+** DONE Max health in sidebar
+** DONE Armor in sidebar
+** DONE Copy image files
+** DONE Paper doll
 * DONE Monday
 ** DONE Visibility
 ** DONE Minimap
