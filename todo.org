@@ -2,7 +2,7 @@
 * DONE Armor in sidebar
 * DONE Copy image files
 * DONE Paper doll
-* Monday
+* DONE Monday
 ** DONE Visibility
 ** DONE Minimap
 *** DONE Make minimap dialog
@@ -11,7 +11,7 @@
 *** DONE Minimap doesn't kill framerate
 ** DONE Dialog keyboard input
 ** DONE Key shortcut to toggle map
-** Console output
+** DONE Console output
 * Tuesday
 ** Enemies
 ** Enemies wake up
