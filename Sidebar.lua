@@ -60,6 +60,7 @@ function Sidebar:initialize(game)
     self.log.OnClick = function() self:toggle_log() end
 
     self:create_log_window()
+    self:create_map_window()
 end
 
 function Sidebar:add_item(item)
@@ -100,11 +101,10 @@ function Sidebar:create_log_window()
     else
         local log = {}
         log.frame = loveframes.Create('frame')
-        log.frame:ShowCloseButton(false)
         log.frame:SetName('Message Log')
         log.frame:SetSize(300, 150+25)
         log.frame:SetPos(490, 415)
-        log.frame.OnClose = function() self:toggle_log() ; return false end
+        log.frame.OnClose = function() self:toggle_log() ; return true end
 
         local list = loveframes.Create('list', log.frame)
         list:SetSize(300, 150)
@@ -139,24 +139,28 @@ function Sidebar:toggle_log()
     end
 end
 
+function Sidebar:create_map_window()
+    local minimap = {}
+    minimap.frame = loveframes.Create('frame')
+    minimap.frame:SetVisible(false)
+    minimap.frame:SetName('Map')
+    minimap.frame:SetSize(196, 196+25)
+    minimap.frame:SetPos(10, 10)
+    minimap.frame.OnClose = function() self:toggle_map() ; return true end
+
+    minimap.image = loveframes.Create('image', minimap.frame)
+    minimap.image:SetSize(196, 196)
+    minimap.image:SetPos(0, 25)
+    minimap.image:SetImage(function() self:draw_minimap() end)
+
+    self.minimap = minimap
+end
+
 function Sidebar:toggle_map()
-    if self.minimap then
-        self.minimap.frame:Remove()
-        self.minimap = nil
+    if self.minimap.frame:GetVisible() then
+        self.minimap.frame:SetVisible(false)
     else
-        local minimap = {}
-        minimap.frame = loveframes.Create('frame')
-        minimap.frame:SetName('Map')
-        minimap.frame:SetSize(196, 196+25)
-        minimap.frame:SetPos(10, 10)
-        minimap.frame.OnClose = function() self:toggle_map() end
-
-        minimap.image = loveframes.Create('image', minimap.frame)
-        minimap.image:SetSize(196, 196)
-        minimap.image:SetPos(0, 25)
-        minimap.image:SetImage(function() self:draw_minimap() end)
-
-        self.minimap = minimap
+        self.minimap.frame:SetVisible(true)
     end
 end
 
