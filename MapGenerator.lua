@@ -92,7 +92,7 @@ function MapGenerator:create_rooms(maze)
     for pt in maze:each() do
         local t = maze:at(pt)
         local c = count(maze, pt)
-        if c > 0 and math.random(3) == 1 or c == 1 then
+        if c > 0 and math.random(2) == 1 or c == 1 then
             t.room = true
         end
     end
