@@ -14,10 +14,10 @@
 ** DONE Key shortcut to toggle map
 ** DONE Console output
 * Tuesday
-** Enemies
+** DONE Enemies
 ** Enemies wake up
 ** Enemies walk toward player
-** Enemies can be hit, killed
+** DONE Enemies can be hit, killed
 ** Enemies hit back!
 * Wednesday
 ** Enemies drop things
@@ -34,3 +34,4 @@
 ** Nicer key repeat rules
    Hold down: do nothing for 1 sec, then repeat 0.1
 ** "Generating map" dialog
+** Enemies with equipment, armor, etc.

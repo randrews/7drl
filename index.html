@@ -181,5 +181,17 @@ it'll fit right in. The only other engine-y thing I'll need after today is
 handling ranged weapons; prompting the user for a space and letting them click.
 That can happen Thursday though, after there are enemies.
 
+2013-03-12 =====================================================================
+
+Enemies! They are placed on the map randomly, when you walk into them it attacks
+them, and if you attack them enough they die. Right now they don't attack back,
+but that's next. They need to move too, and follow the player when they're
+awake, and for that matter wake up when you move too close (everything in the
+dungeon is asleep until you poke it. It's dark, after all!).
+
+Also it occurs to me that a lot of the other stuff in the game, like chests,
+stairs, loot, all have a lot in common with enemies. I need a parent class for
+things like that, like MapItem.
+
 ================================================================================
 </pre>
