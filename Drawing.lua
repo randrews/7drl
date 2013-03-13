@@ -34,7 +34,7 @@ function Drawing:draw()
             end
 
             if self.decoration:at(pt) then self:draw_decoration(pt) end
-            if self.map_items:at(pt) then self:draw_item(pt) end
+            if self.map_items:at(pt) then self.map_items:at(pt):draw(pt) end
         end
     end
 
@@ -43,14 +43,6 @@ function Drawing:draw()
     g.pop()
     g.setScissor()
     self.sidebar:update()
-end
-
-function Drawing:draw_item(pt)
-    local item = self.map_items:at(pt)
-    assert(item)
-
-    local g = love.graphics
-    g.drawq(item.image, item.quad, pt.x*40+4, pt.y*40+4)
 end
 
 function Drawing:draw_decoration(pt)

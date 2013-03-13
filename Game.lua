@@ -177,14 +177,18 @@ end
 function Game:tick()
     self:log("Tick", {0, 0, 255})
 
-    -- First, stuff next to the player attacks
-    -- Then awake stuff moves
+    -- First, awake stuff moves
+    -- Then stuff next to the player attacks
 end
 
 -- Call this when the player does something that might make noise, like walking.
 -- It should be called AFTER tick, so that things can't move as soon as they awaken.
 function Game:make_noise()
-    self:log("shh", {0, 0, 255})
+    for pt in self.map_items:each(self.player_loc-Point(3, 3), 7, 7) do
+        if self.player_loc:dist(pt, 3) then
+            self.map_items:at(pt):hear(self)
+        end
+    end
 end
 
 function Game:open_door(pt)

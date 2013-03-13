@@ -15,6 +15,38 @@ function Enemy:init(opts)
         self.icon.x, self.icon.y,
         32, 32,
         w, h)
+
+    self.zzz = nil -- The "zzz" animation when they're asleep
+end
+
+-- Called when noise is made near the enemy
+function Enemy:hear(game)
+    self.awake = true
+end
+
+-- Takes the point (map coords) where the enemy is
+function Enemy:draw(pt)
+    local g = love.graphics
+    g.drawq(self.image, self.quad, pt.x*40+4, pt.y*40+4)
+
+    if not self.awake then
+        if not self.zzz or not self.zzz.y:alive() then
+            self:makeZzz()
+        end
+
+        local c = {g.getColor()}
+        g.setColor(255, 255, 255, self.zzz.transparency.value)
+        g.print("Zzz", pt.x*40+self.zzz.x, pt.y*40+self.zzz.y.value)
+        g.setColor(c)
+    end
+end
+
+function Enemy:makeZzz()
+    self.zzz = {
+        x = math.random(8, 16),
+        y = Tween(4, -16, 3),
+        transparency = Tween(255, 64, 3)
+    }
 end
 
 --------------------------------------------------
