@@ -19,6 +19,8 @@
 ** Enemies walk toward player
 ** DONE Enemies can be hit, killed
 ** Enemies hit back!
+** DONE Nicer key repeat rules
+   Hold down: do nothing for 1 sec, then repeat 0.1
 * Wednesday
 ** Enemies drop things
 ** Stairs
@@ -31,7 +33,5 @@
 * Friday
 ** Packaging releases
 * Wishlist
-** Nicer key repeat rules
-   Hold down: do nothing for 1 sec, then repeat 0.1
 ** "Generating map" dialog
 ** Enemies with equipment, armor, etc.

@@ -148,10 +148,14 @@ function Game:keypressed(key)
         end
 
         if not self.key_repeat_clock then
-            local delay = 0.2
-            -- Go faster if held down in a hallway
-            if self.map:at(self.player_loc) == ',' then delay = 0.1 end
-            self.key_repeat_clock = Clock(delay, function() self:keypressed(key) end)
+            -- First, make a clock to delay a second
+            self.key_repeat_clock =
+                Clock.oneoff(0.6,
+                             function()
+                                 -- Then, after a second, start repeating 0.1 secs
+                                 self.key_repeat_clock =
+                                     Clock(0.1, self.keypressed, self, key)
+                             end)
         end
     elseif key == 'escape' then
         self.sidebar:exit_dialog()
