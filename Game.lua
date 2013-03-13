@@ -73,8 +73,8 @@ function Game:initialize(strs)
     self.maze = self.generator.maze
     self.visibility = Map(self.map.width, self.map.height)
     self.visibility:clear(false)
-    self.enemies = Map(self.map.width, self.map.height)
-    self.enemies:clear(false)
+    self.map_items = SparseMap(self.map.width, self.map.height)
+    self.map_items:clear()
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
@@ -133,7 +133,7 @@ function Game:keypressed(key)
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             if self.map:at(new_loc) == '+' then -- Open door
                 self:open_door(new_loc)
-            elseif self.enemies:at(new_loc) then
+            elseif self.map_items:at(new_loc) then
                 self:attack(new_loc)
             else
                 self.player_loc = new_loc
@@ -178,7 +178,7 @@ function Game:open_door(pt)
 end
 
 function Game:attack(pt)
-    local enemy = self.enemies:at(pt)
+    local enemy = self.map_items:at(pt)
     assert(enemy)
     local weapon = self:active_item('weapon') or Fist()
     local dmg = weapon:calculate_damage()
@@ -195,7 +195,7 @@ function Game:attack(pt)
 
         enemy.health = enemy.health - dmg
         if enemy.health <= 0 then
-            self.enemies:at(pt, false)
+            self.map_items:delete(pt)
             self:log("You have killed the " .. enemy.name)
         end
     end
@@ -203,7 +203,7 @@ end
 
 function Game:reveal_items(revealed, hallway)
     -- Drop the places, if any, that there's already an item.
-    revealed = revealed:select(function(p) return not self.enemies:at(p) end)
+    revealed = revealed:select(function(p) return not self.map_items:at(p) end)
 
     -- In the future, sometimes there will be chests
     local num_enemies = 0
@@ -222,7 +222,7 @@ function Game:reveal_items(revealed, hallway)
     for n = 1, num_enemies do
         local p = get_point()
         local orc = Orc()
-        self.enemies:at(p, orc)
+        self.map_items:at(p, orc)
     end
 end
 

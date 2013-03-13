@@ -33,7 +33,7 @@ function Drawing:draw()
             else
             end
 
-            if self.enemies:at(pt) then self:draw_enemy(pt) end
+            if self.map_items:at(pt) then self:draw_item(pt) end
         end
     end
 
@@ -44,12 +44,12 @@ function Drawing:draw()
     self.sidebar:update()
 end
 
-function Drawing:draw_enemy(pt)
-    local enemy = self.enemies:at(pt)
-    assert(enemy)
+function Drawing:draw_item(pt)
+    local item = self.map_items:at(pt)
+    assert(item)
 
     local g = love.graphics
-    g.drawq(enemy.image, enemy.quad, pt.x*40+4, pt.y*40+4)
+    g.drawq(item.image, item.quad, pt.x*40+4, pt.y*40+4)
 end
 
 function Drawing:draw_floor(pt, quad)
