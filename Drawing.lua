@@ -33,6 +33,7 @@ function Drawing:draw()
             else
             end
 
+            if self.decoration:at(pt) then self:draw_decoration(pt) end
             if self.map_items:at(pt) then self:draw_item(pt) end
         end
     end
@@ -50,6 +51,14 @@ function Drawing:draw_item(pt)
 
     local g = love.graphics
     g.drawq(item.image, item.quad, pt.x*40+4, pt.y*40+4)
+end
+
+function Drawing:draw_decoration(pt)
+    local d = self.decoration:at(pt)
+    assert(d)
+
+    local g = love.graphics
+    g.drawq(d.image, d.quad, pt.x*40+4, pt.y*40+4)
 end
 
 function Drawing:draw_floor(pt, quad)

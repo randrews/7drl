@@ -48,6 +48,10 @@ function Game.static.start(game)
     dagger:activate(game)
     game:add_item(dagger)
 
+    -- Remove me before release!
+    local wand = DevWand()
+    game:add_item(wand)
+
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()
         game:add_item(potion)
@@ -71,10 +75,11 @@ function Game:initialize(strs)
 
     self.map = self.generator.map
     self.maze = self.generator.maze
+
     self.visibility = Map(self.map.width, self.map.height)
-    self.visibility:clear(false)
     self.map_items = SparseMap(self.map.width, self.map.height)
-    self.map_items:clear()
+    self.decoration = SparseMap(self.map.width, self.map.height)
+    self.visibility:clear(false)
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
@@ -196,6 +201,7 @@ function Game:attack(pt)
         enemy.health = enemy.health - dmg
         if enemy.health <= 0 then
             self.map_items:delete(pt)
+            self.decoration:at(pt, Decoration.corpse)
             self:log("You have killed the " .. enemy.name)
         end
     end

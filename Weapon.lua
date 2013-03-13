@@ -37,6 +37,22 @@ end
 
 --------------------------------------------------------------------------------
 
+DevWand = class('DevWand', Weapon)
+
+function DevWand:initialize()
+    self:init{
+        name = 'Wand of dev',
+        verb = 'tweak reality around',
+        icon = Point(992, 0),
+        paperdoll = Point(960, 0),
+        image = Game.images.equipment,
+        damage = 1000000,
+        hit = 1
+    }
+end
+
+--------------------------------------------------------------------------------
+
 Fist = class('Fist', Weapon)
 
 function Fist:initialize()
