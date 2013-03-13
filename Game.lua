@@ -1,5 +1,7 @@
 Game = class('Game')
 
+Game:include(Drawing)
+
 function Game.static.setup()
     Game.images = {}
 
@@ -51,15 +53,28 @@ function Game.static.start(game)
         game:add_item(potion)
     end
 
+    game.health = 20
+    game.max_health = 20
+    game.armor = 0
+    game.level = 1
+    game.score = 0
+
     game:log("Welcome to the dungeon!")
 end
 
+--------------------------------------------------
+
 function Game:initialize(strs)
+    self.sidebar = Sidebar(self)
     self.generator = MapGenerator()
+    self.inventory = List{}
+
     self.map = self.generator.map
     self.maze = self.generator.maze
     self.visibility = Map(self.map.width, self.map.height)
     self.visibility:clear(false)
+    self.enemies = Map(self.map.width, self.map.height)
+    self.enemies:clear(false)
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
@@ -69,14 +84,11 @@ function Game:initialize(strs)
     self.key_repeat_clock = nil
     self.freeze = false
 
-    self.health = 20
-    self.max_health = 20
+    self.health = 0
+    self.max_health = 0
     self.armor = 0
-    self.level = 1
+    self.level = 0
     self.score = 0
-    self.inventory = List{}
-
-    self.sidebar = Sidebar(self)
 end
 
 function Game:reveal(pt)
@@ -91,6 +103,8 @@ function Game:reveal(pt)
                             self.visibility:at(pt, true)
                         end)
                 end)
+
+    return hidden
 end
 
 function Game:add_item(item)
@@ -103,155 +117,11 @@ function Game:remove_item(item)
     self.sidebar:remove_item(item)
 end
 
-function Game:draw()
-    local g = love.graphics
-
-    if self.bg_effect then
-        g.setColor(self.bg_effect.value, self.bg_effect.value, self.bg_effect.value)
-    end
-
-    g.push()
-    g.setScissor(0, 0, 40*20, 40*15)
-    g.translate(
-            -(self.player_loc.x*40 - 9.5*40),
-            -(self.player_loc.y*40 - 7*40))
-
-    for pt in self.map:each(self.player_loc-Point(10, 8), 21, 16) do
-        local c = self.map:at(pt)
-        local v = self.visibility:at(pt)
-
-        if v then
-            if c == '#' then
-                self:draw_wall(pt)
-            elseif c == '.' then
-                self:draw_floor(pt, Game.quads.floor)
-            elseif c == ',' then
-                self:draw_floor(pt, Game.quads.hall_floor)
-            elseif c == '+' then
-                self:draw_floor(pt, Game.quads.hall_floor)
-                g.drawq(Game.images.decoration, Game.quads.door, pt.x*40, pt.y*40)
-            elseif c == '_' then
-                self:draw_floor(pt, Game.quads.hall_floor)
-                g.drawq(Game.images.decoration, Game.quads.open_door, pt.x*40, pt.y*40)
-            else
-            end
-        end
-    end
-
-    self:draw_player()
-
-    g.pop()
-    g.setScissor()
-    self.sidebar:update()
-    -- self:draw_minimap()
-end
-
-function Game:draw_minimap()
-    local g = love.graphics
-
-    for pt in self.maze:each() do
-        g.setColor(0, 0, 0)
-        g.rectangle('fill', pt.x*8, pt.y*8, 8, 8)
-        g.setColor(255, 255, 255)
-        local t = self.maze:at(pt)
-        if t.n then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+4, pt.y*8) end
-        if t.s then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+4, pt.y*8+8) end
-        if t.e then g.line(pt.x*8+4, pt.y*8+4, pt.x*8+8, pt.y*8+4) end
-        if t.w then g.line(pt.x*8+4, pt.y*8+4, pt.x*8, pt.y*8+4) end
-        if t.room then g.rectangle('fill', pt.x*8+2, pt.y*8+2, 4, 4) end
-    end
-end
-
-function Game:draw_floor(pt, quad)
-    local g = love.graphics
-    g.drawq(Game.images.floors, quad, pt.x*40, pt.y*40)
-    g.drawq(Game.images.floors, quad, pt.x*40+20, pt.y*40)
-    g.drawq(Game.images.floors, quad, pt.x*40, pt.y*40+20)
-    g.drawq(Game.images.floors, quad, pt.x*40+20, pt.y*40+20)
-end
-
-function Game:draw_wall(pt)
-    local g = love.graphics
-    local function neighbor(dir)
-        local t = self.map:at(pt + dir)
-        return t == '.' or t == ',' or t == '+' or t == '_'
-    end
-
-    local n = neighbor(Point.north)
-    local s = neighbor(Point.south)
-    local e = neighbor(Point.east)
-    local w = neighbor(Point.west)
-
-    if n then
-        g.drawq(Game.images.walls, Game.quads.walls.n, pt.x*40, pt.y*40)
-    end
-
-    if s then
-        g.drawq(Game.images.walls, Game.quads.walls.s, pt.x*40, pt.y*40+20)
-    end
-
-    if e then
-        g.drawq(Game.images.walls, Game.quads.walls.e, pt.x*40+20, pt.y*40)
-    end
-
-    if w then
-        g.drawq(Game.images.walls, Game.quads.walls.w, pt.x*40, pt.y*40)
-    end
-
-    if neighbor(Point.southeast) then
-        if not s and not e then
-            g.drawq(Game.images.walls, Game.quads.walls.se, pt.x*40+20, pt.y*40+20)
-        elseif s and e then
-            g.drawq(Game.images.walls, Game.quads.walls.se_inner, pt.x*40+20, pt.y*40+20)
-        end
-    end
-
-    if neighbor(Point.southwest) then
-        if not s and not w then
-            g.drawq(Game.images.walls, Game.quads.walls.sw, pt.x*40, pt.y*40+20)
-        elseif s and w then
-            g.drawq(Game.images.walls, Game.quads.walls.sw_inner, pt.x*40, pt.y*40+20)
-        end
-    end
-
-    if neighbor(Point.northeast) then
-        if not n and not e then
-            g.drawq(Game.images.walls, Game.quads.walls.ne, pt.x*40+20, pt.y*40)
-        elseif n and e then
-            g.drawq(Game.images.walls, Game.quads.walls.ne_inner, pt.x*40+20, pt.y*40)
-        end
-    end
-
-    if neighbor(Point.northwest) then
-        if not n and not w then
-            g.drawq(Game.images.walls, Game.quads.walls.nw, pt.x*40, pt.y*40)
-        elseif n and w then
-            g.drawq(Game.images.walls, Game.quads.walls.nw_inner, pt.x*40, pt.y*40)
-        end
-    end
-end
-
-function Game:draw_player()
-    local g = love.graphics
-
-    g.drawq(Game.images.chars, Game.quads.player,
-            self.player_loc.x * 40 + 4,
-            self.player_loc.y * 40 + 4)
-
-    local armor = self.inventory:select(function(i) return i.category == 'armor' and i.active end):shift()
-    local weapon = self.inventory:select(function(i) return i.category == 'weapon' and i.active end):shift()
-
-    if armor then
-        g.drawq(armor.image, armor.paperdoll_quad, 
-                self.player_loc.x * 40 + 4,
-                self.player_loc.y * 40 + 4)
-    end
-
-    if weapon then
-        g.drawq(weapon.image, weapon.paperdoll_quad, 
-                self.player_loc.x * 40 + 4,
-                self.player_loc.y * 40 + 4)
-    end
+-- Return the active item (if any) for the given category
+function Game:active_item(category)
+    return self.inventory:select(function(i)
+                                     return i.active and i.category == category
+                                 end):shift()
 end
 
 function Game:keypressed(key)
@@ -263,6 +133,8 @@ function Game:keypressed(key)
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             if self.map:at(new_loc) == '+' then -- Open door
                 self:open_door(new_loc)
+            elseif self.enemies:at(new_loc) then
+                self:attack(new_loc)
             else
                 self.player_loc = new_loc
             end
@@ -288,20 +160,70 @@ end
 function Game:open_door(pt)
     self.map:at(pt, '_')
 
-    local hidden = self.map:neighbors(pt,
-                                      function(_, p)
-                                          local v = self.map:at(p)
-                                          return v == '.' or v == ','
-                                      end,
-                                      true)
+    local hidden = self.map:neighbors(pt, nil, true)
 
     hidden:each(function(p)
                     if not self.visibility:at(p) then
-                        self:reveal(p)
+                        self.visibility:at(p, true)
+
+                        local v = self.map:at(p)
+                        if v == '.' or v == ',' then
+                            local revealed = self:reveal(p)
+                            self:reveal_items(revealed, v == ',')
+                        end
                     end
                 end)
 
     self.sidebar:redraw_minimap() -- This is a great candidate for pubsub
+end
+
+function Game:attack(pt)
+    local enemy = self.enemies:at(pt)
+    assert(enemy)
+    local weapon = self:active_item('weapon') or Fist()
+    local dmg = weapon:calculate_damage()
+
+    if dmg == 0 then
+        self:log("You flail wildly, missing the " .. enemy.name .. " completely.",
+                 {255, 0, 0})
+    else
+        self:log("You " .. weapon.verb
+                 .. ' the ' .. enemy.name
+                 .. ' with your ' .. string.lower(weapon.name)
+                 .. ', dealing ' .. dmg .. ' damage.',
+         {0, 255, 0})
+
+        enemy.health = enemy.health - dmg
+        if enemy.health <= 0 then
+            self.enemies:at(pt, false)
+            self:log("You have killed the " .. enemy.name)
+        end
+    end
+end
+
+function Game:reveal_items(revealed, hallway)
+    -- Drop the places, if any, that there's already an item.
+    revealed = revealed:select(function(p) return not self.enemies:at(p) end)
+
+    -- In the future, sometimes there will be chests
+    local num_enemies = 0
+    if hallway then
+        num_enemies = math.floor(revealed:length() / 10)
+    else
+        num_enemies = math.floor(revealed:length() / 5)
+    end
+
+    -- Pull a random point out
+    local function get_point()
+        local i = math.random(#(revealed.items))
+        return table.remove(revealed.items, i)
+    end
+
+    for n = 1, num_enemies do
+        local p = get_point()
+        local orc = Orc()
+        self.enemies:at(p, orc)
+    end
 end
 
 function Game:log(str, color)

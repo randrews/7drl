@@ -10,11 +10,13 @@ require('Tween')
 require('Promise')
 require('utils')
 
+require('Drawing')
 require('Game')
 require('Sidebar')
 require('Item')
 require('Weapon')
 require('MapGenerator')
+require('Enemy')
 
 function love.load()
     math.randomseed(os.time())
