@@ -138,10 +138,15 @@ function Game:keypressed(key)
         if self.map:inside(new_loc) and self.map:at(new_loc) ~= '#' then
             if self.map:at(new_loc) == '+' then -- Open door
                 self:open_door(new_loc)
+                self:tick()
             elseif self.map_items:at(new_loc) then
                 self:attack(new_loc)
+                self:tick()
+                self:make_noise()
             else
                 self.player_loc = new_loc
+                self:tick()
+                self:make_noise()
             end
         else
             self.bg_effect = Tween(140, 255, 0.5)
@@ -164,6 +169,22 @@ function Game:keypressed(key)
     elseif key == 'l' then
         self.sidebar:toggle_log()
     end
+end
+
+-- Do everything that needs doing every time the player takes a turn.
+-- Client code (like Item.on_use) should call this!
+-- (meaning, it's important it not need any parameters)
+function Game:tick()
+    self:log("Tick", {0, 0, 255})
+
+    -- First, stuff next to the player attacks
+    -- Then awake stuff moves
+end
+
+-- Call this when the player does something that might make noise, like walking.
+-- It should be called AFTER tick, so that things can't move as soon as they awaken.
+function Game:make_noise()
+    self:log("shh", {0, 0, 255})
 end
 
 function Game:open_door(pt)

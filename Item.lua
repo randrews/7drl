@@ -128,6 +128,8 @@ end
 function HealthPotion:use(game)
     game:remove_item(self)
     game.health = math.min(game.health + 10, game.max_health)
+    game:log("You feel refreshed!", {0, 160, 0})
+    game:tick() -- Using a potion counts as your turn
 end
 
 --------------------------------------------------------------------------------
