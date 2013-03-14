@@ -254,7 +254,7 @@ function Game:attack(pt)
 
     if dmg == 0 then
         self:log("You flail wildly, missing the " .. enemy.name .. " completely.",
-                 {255, 0, 0})
+                 {0, 160, 0})
     else
         self:log("You " .. weapon.verb
                  .. ' the ' .. enemy.name
@@ -269,6 +269,15 @@ function Game:attack(pt)
             self:log("You have killed the " .. enemy.name)
         end
     end
+end
+
+function Game:hit_player(enemy, damage)
+    if damage == 0 then
+        self:log("The " .. enemy.name .. " attacks you but misses.", {160, 0, 0})
+    else
+        self.health = self.health - damage
+        self:log("The " .. enemy.name .. " attacks you for " .. damage .. " damage!", {255, 0, 0})
+    end        
 end
 
 function Game:reveal_items(revealed, hallway)

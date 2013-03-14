@@ -45,9 +45,13 @@ function Point:toward(pt2)
    end
 end
 
-function Point:adjacent(pt2)
+function Point:adjacent(pt2, diag)
    local d = pt2-self
-   return (d.x == 0 or d.y == 0) and (math.abs(d.x+d.y) == 1)
+   if (d.x == 0 or d.y == 0) and (math.abs(d.x+d.y) == 1) then
+       return true
+   elseif diag then
+       return math.abs(d.x) == 1 and math.abs(d.y) == 1
+   end
 end
 
 -- With one arg: returns the distance to pt2

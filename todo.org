@@ -13,15 +13,15 @@
 ** DONE Dialog keyboard input
 ** DONE Key shortcut to toggle map
 ** DONE Console output
-* Tuesday
+* DONE Tuesday
 ** DONE Enemies
-** DONE Enemies wake up
-** DONE Enemies walk toward player
 ** DONE Enemies can be hit, killed
-** Enemies hit back!
 ** DONE Nicer key repeat rules
    Hold down: do nothing for 1 sec, then repeat 0.1
 * Wednesday
+** DONE Enemies wake up
+** DONE Enemies walk toward player
+** DONE Enemies hit back!
 ** Enemies drop things
 ** Stairs
 ** Catch-up

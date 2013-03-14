@@ -3,7 +3,8 @@ Enemy = class('Enemy')
 function Enemy:init(opts)
     self.name = opts.name ; assert(self.name)
     self.health = opts.health or 10
-    self.damage = opts.damage or {2, 5}
+    self.damage = opts.damage or 0
+    self.hit = opts.hit or 0
     self.icon = opts.icon ; assert(self.icon)
     self.image = opts.image or Game.images.chars
     self.awake = false
@@ -19,6 +20,8 @@ function Enemy:init(opts)
     self.zzz = nil -- The "zzz" animation when they're asleep
 end
 
+Enemy.calculate_damage = Weapon.calculate_damage
+
 -- Called when noise is made near the enemy
 function Enemy:hear(game, pt)
     self.awake = true
@@ -27,6 +30,14 @@ end
 function Enemy:tick(game, pt)
     self:move(game, pt)
     -- Attack if adjacent
+    if self:adjacent_to_player(game, pt) then
+        local d = self:calculate_damage()
+        game:hit_player(self, d)
+    end
+end
+
+function Enemy:adjacent_to_player(game, pt)
+    return game.player_loc:adjacent(pt, true)
 end
 
 function Enemy:move(game, pt)
@@ -87,7 +98,9 @@ function Orc:initialize()
     self:init{
         name = "orc",
         health = math.random(3, 7),
-        icon = Point(32, 0)
+        icon = Point(32, 0),
+        damage = {1, 3},
+        hit = 0.4
     }
 end
 
