@@ -74,7 +74,6 @@ function Game:initialize(strs)
     self.inventory = List{}
 
     self.map = self.generator.map
-    self.maze = self.generator.maze
 
     self.visibility = Map(self.map.width, self.map.height)
     self.map_items = SparseMap(self.map.width, self.map.height)
@@ -120,6 +119,16 @@ end
 function Game:remove_item(item)
     self.inventory = self.inventory:select(function(i) return i ~= item end)
     self.sidebar:remove_item(item)
+end
+
+-- Move an item in self.map_items
+function Game:move_item(old, new)
+    local sm = self.map_items
+    assert(new ~= old)
+    assert(sm(old) ~= nil)
+    assert(sm(new) == nil)
+    self.map_items:at(new, self.map_items:at(old))
+    self.map_items:delete(old)
 end
 
 -- Return the active item (if any) for the given category
@@ -171,14 +180,40 @@ function Game:keypressed(key)
     end
 end
 
+-- returns a List of all points containing awake map items,
+-- sorted by ascending distance from player
+function Game:awake_items()
+    local all_awake = {}
+    for pt in self.map_items:each() do
+        local it = self.map_items:at(pt)
+        if it.awake then
+            table.insert(all_awake, {pt, it})
+        end
+    end
+
+    local p = self.player_loc
+    table.sort(all_awake, function(a, b)
+                              local da = p:dist(a[1])
+                              return da < p:dist(b[1])
+                          end)
+
+    for n, i in ipairs(all_awake) do all_awake[n] = i[1] end
+    return List(all_awake)
+end
+
 -- Do everything that needs doing every time the player takes a turn.
 -- Client code (like Item.on_use) should call this!
 -- (meaning, it's important it not need any parameters)
 function Game:tick()
     self:log("Tick", {0, 0, 255})
 
-    -- First, awake stuff moves
-    -- Then stuff next to the player attacks
+    local points = self:awake_items()
+    local items = points:map(function(p) return self.map_items:at(p) end)
+
+    for n = 1, points:length() do
+        local p = points:at(n)
+        items:at(n):tick(self, p)
+    end
 end
 
 -- Call this when the player does something that might make noise, like walking.
@@ -186,7 +221,7 @@ end
 function Game:make_noise()
     for pt in self.map_items:each(self.player_loc-Point(3, 3), 7, 7) do
         if self.player_loc:dist(pt, 3) then
-            self.map_items:at(pt):hear(self)
+            self.map_items:at(pt):hear(self, pt)
         end
     end
 end

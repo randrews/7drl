@@ -15,8 +15,8 @@
 ** DONE Console output
 * Tuesday
 ** DONE Enemies
-** Enemies wake up
-** Enemies walk toward player
+** DONE Enemies wake up
+** DONE Enemies walk toward player
 ** DONE Enemies can be hit, killed
 ** Enemies hit back!
 ** DONE Nicer key repeat rules

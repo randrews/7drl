@@ -20,8 +20,38 @@ function Enemy:init(opts)
 end
 
 -- Called when noise is made near the enemy
-function Enemy:hear(game)
+function Enemy:hear(game, pt)
     self.awake = true
+end
+
+function Enemy:tick(game, pt)
+    self:move(game, pt)
+    -- Attack if adjacent
+end
+
+function Enemy:move(game, pt)
+    -- Filter for neighbors, can we move here
+    local function open(_, pt)
+        return (not game.map_items:at(pt)) and game.map:at(pt)~='+' and game.map:at(pt)~='#'
+    end
+
+    -- Find all places we can move
+    local player = game.player_loc
+    local possible = game.map:neighbors(pt, open, true)
+
+    -- Find the neighbor that gives the shortest dist to player
+    local min = pt
+    possible:each(function(p)
+                      if p:dist(player) < min:dist(player) then min = p end
+                  end)
+
+    -- Actually move!
+    -- we can't move ON to the player, we can't stay where we are...
+    if player == min or min == pt then
+        return
+    else
+        game:move_item(pt, min)
+    end
 end
 
 -- Takes the point (map coords) where the enemy is
