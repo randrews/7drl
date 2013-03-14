@@ -194,7 +194,7 @@ function Sidebar:create_minimap_canvas()
     g.rectangle('fill', 0, 0, 196, 196)
 
     for pt in self.game.map:each() do
-        if self.game.visibility:at(pt) then
+        if true or self.game.visibility:at(pt) then
             local c = self.game.map:at(pt)
 
             if c == '.' or c == ',' or c == '_' then
@@ -229,6 +229,14 @@ function Sidebar:draw_minimap()
                             self.game.player_loc.x*4,
                             self.game.player_loc.y*4,
                             4, 4)
+
+    if true or self.game.visibility:at(self.game.stairs_loc) then
+        love.graphics.setColor(0, 0, 255)
+        love.graphics.rectangle('fill',
+                                self.game.stairs_loc.x*4,
+                                self.game.stairs_loc.y*4,
+                                4, 4)
+    end
 end
 
 function Sidebar:exit_dialog()

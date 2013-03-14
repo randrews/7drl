@@ -61,7 +61,6 @@ function Game.static.start(game)
     game.health = 20
     game.max_health = 20
     game.armor = 0
-    game.level = 1
     game.score = 0
 
     game:log("Welcome to the dungeon!")
@@ -85,6 +84,7 @@ function Game:initialize(strs)
 end
 
 function Game:next_level()
+    self.level = self.level + 1
     self.generator = MapGenerator()
     self.map = self.generator.map
 
@@ -97,9 +97,11 @@ function Game:next_level()
     self.map:at(self.player_loc, '.')
     self:reveal(self.player_loc)
 
-    local stairs_loc = self.map:find_value('='):shift()
-    self.map:at(stairs_loc, '.')
-    self.map_items:at(stairs_loc, Stairs())
+    self.stairs_loc = self.map:find_value('='):shift()
+    self.map:at(self.stairs_loc, '.')
+    self.map_items:at(self.stairs_loc, Stairs())
+
+    self.sidebar:redraw_minimap()
 end
 
 function Game:reveal(pt)
