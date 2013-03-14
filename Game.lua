@@ -71,9 +71,21 @@ end
 
 function Game:initialize(strs)
     self.sidebar = Sidebar(self)
-    self.generator = MapGenerator()
     self.inventory = List{}
+    self.health = 0
+    self.max_health = 0
+    self.armor = 0
+    self.level = 0
+    self.score = 0
+    self.bg_effect = {value=255}
+    self.key_repeat_clock = nil
+    self.freeze = false -- When frozen, ignore kbd input
 
+    self:next_level()
+end
+
+function Game:next_level()
+    self.generator = MapGenerator()
     self.map = self.generator.map
 
     self.visibility = Map(self.map.width, self.map.height)
@@ -88,20 +100,6 @@ function Game:initialize(strs)
     local stairs_loc = self.map:find_value('='):shift()
     self.map:at(stairs_loc, '.')
     self.map_items:at(stairs_loc, Stairs())
-
-    self.bg_effect = {value=255}
-    self.key_repeat_clock = nil
-    self.freeze = false
-
-    self.health = 0
-    self.max_health = 0
-    self.armor = 0
-    self.level = 0
-    self.score = 0
-end
-
-function Game:next_level()
-    self:log("Next level")
 end
 
 function Game:reveal(pt)
