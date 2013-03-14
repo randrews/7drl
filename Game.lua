@@ -85,6 +85,10 @@ function Game:initialize(strs)
     self.map:at(self.player_loc, '.')
     self:reveal(self.player_loc)
 
+    local stairs_loc = self.map:find_value('='):shift()
+    self.map:at(stairs_loc, '.')
+    self.map_items:at(stairs_loc, Stairs())
+
     self.bg_effect = {value=255}
     self.key_repeat_clock = nil
     self.freeze = false
@@ -94,6 +98,10 @@ function Game:initialize(strs)
     self.armor = 0
     self.level = 0
     self.score = 0
+end
+
+function Game:next_level()
+    self:log("Next level")
 end
 
 function Game:reveal(pt)

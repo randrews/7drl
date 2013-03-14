@@ -2,6 +2,7 @@ Enemy = class('Enemy', MapItem)
 Enemy:include(DamageEffect)
 
 function Enemy:init(opts)
+    opts.image = Game.images.chars
     MapItem.init(self, opts)
 
     self.health = opts.health or 10

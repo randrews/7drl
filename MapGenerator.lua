@@ -166,6 +166,7 @@ end
 function MapGenerator:place_player(map)
     local function floor(map, pt) return map:at(pt) == '.' end
     map:at(map:random(floor), '@')
+    map:at(map:random(floor), '=')
 end
 
 --------------------------------------------------------------------------------
