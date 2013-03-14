@@ -171,6 +171,8 @@ function Game:keypressed(key)
                                      Clock(0.1, self.keypressed, self, key)
                              end)
         end
+    elseif key == ' ' then
+        self:tick()
     elseif key == 'escape' then
         self.sidebar:exit_dialog()
     elseif key == 'm' then
@@ -205,8 +207,6 @@ end
 -- Client code (like Item.on_use) should call this!
 -- (meaning, it's important it not need any parameters)
 function Game:tick()
-    self:log("Tick", {0, 0, 255})
-
     local points = self:awake_items()
     local items = points:map(function(p) return self.map_items:at(p) end)
 
