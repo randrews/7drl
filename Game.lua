@@ -215,6 +215,23 @@ function Game:tick()
         local p = points:at(n)
         items:at(n):tick(self, p)
     end
+
+    if self.health <= 0 then -- Sorry, you are dead...
+        self:set_freeze(true)
+        local str = string.format(
+            "You have died on level %s, \n with a score of %s. \n Would you like to try again?",
+            self.level, self.score)
+        local prom = utils.dialog('You have died', str, 'Restart', 'Quit', 35)
+
+        prom:add(function(btn)
+                     if btn == 'Quit' then
+                         love.event.push('quit')
+                         REALLY_QUIT = true
+                     elseif btn == 'Restart' then
+                         START_GAME()
+                     end
+                 end)
+    end
 end
 
 -- Call this when the player does something that might make noise, like walking.

@@ -27,6 +27,10 @@ function love.load()
     loveframes.util.SetActiveSkin('Rogue')
     Game.setup()
     Decoration.setup()
+    START_GAME()
+end
+
+function START_GAME()
     current_game = Game()
     Game.start(current_game)
 end

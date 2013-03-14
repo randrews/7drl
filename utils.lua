@@ -2,7 +2,7 @@ module(..., package.seeall)
 
 CURRENT_DIALOG = nil
 
-function dialog(title, text, button1_text, button2_text)
+function dialog(title, text, button1_text, button2_text, y)
     local promise = Promise()
     
     local dialog = loveframes.Create('frame')
@@ -14,9 +14,9 @@ function dialog(title, text, button1_text, button2_text)
 
     local white = {255, 255, 255}
     local label = loveframes.Create('text', dialog)
-    label:SetText{white, "Really quit?"}
+    label:SetText{white, text}
     label:Center()
-    label:SetY(50)
+    label:SetY(y or 50)
 
     local btn1 = loveframes.Create('button', dialog)
     btn1:SetText(button1_text or 'Yes')

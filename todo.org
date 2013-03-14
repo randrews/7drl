@@ -23,8 +23,9 @@
 ** DONE Enemies walk toward player
 ** DONE Enemies hit back!
 ** Enemies drop things
+** DONE Player can die
 ** Stairs
-** Catch-up
+** DONE Catch-up
 * Thursday
 ** Items
 ** Weapons
