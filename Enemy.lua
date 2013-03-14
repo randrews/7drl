@@ -1,27 +1,45 @@
-Enemy = class('Enemy')
+Enemy = class('Enemy', MapItem)
 Enemy:include(DamageEffect)
 
 function Enemy:init(opts)
-    self.name = opts.name ; assert(self.name)
+    MapItem.init(self, opts)
+
     self.health = opts.health or 10
     self.damage = opts.damage or 0
     self.hit = opts.hit or 0
-    self.icon = opts.icon ; assert(self.icon)
-    self.image = opts.image or Game.images.chars
     self.awake = false
     self.alive = true
-
-    local w = self.image:getWidth()
-    local h = self.image:getHeight()
-    self.quad = love.graphics.newQuad(
-        self.icon.x, self.icon.y,
-        32, 32,
-        w, h)
 
     self.zzz = nil -- The "zzz" animation when they're asleep
 end
 
 Enemy.calculate_damage = Weapon.calculate_damage
+
+-- Called when the player walks into the enemy
+function Enemy:bump(game, pt)
+    local weapon = game:active_item('weapon') or Fist()
+    local dmg = weapon:calculate_damage()
+    self:show_damage(pt, -dmg)
+
+    if dmg == 0 then
+        game:log("You flail wildly, missing the " .. self.name .. " completely.",
+                 {0, 160, 0})
+    else
+        game:log("You " .. weapon.verb
+                 .. ' the ' .. self.name
+                 .. ' with your ' .. string.lower(weapon.name)
+             .. ', dealing ' .. dmg .. ' damage.',
+         {0, 255, 0})
+
+        self.health = self.health - dmg
+        if self.health <= 0 then
+            game.map_items:delete(pt)
+            game.decoration:at(pt, Decoration.corpse)
+            game:log("You have killed the " .. self.name)
+        end
+    end
+
+end
 
 -- Called when noise is made near the enemy
 function Enemy:hear(game, pt)

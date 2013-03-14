@@ -18,6 +18,7 @@ require('Sidebar')
 require('Item')
 require('Weapon')
 require('MapGenerator')
+require('MapItem')
 require('Enemy')
 require('Decoration')
 

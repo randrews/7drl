@@ -22,17 +22,17 @@
 ** DONE Enemies wake up
 ** DONE Enemies walk toward player
 ** DONE Enemies hit back!
-** Enemies drop things
 ** DONE Player can die
 ** Stairs
 ** DONE Catch-up
 * Thursday
 ** Items
 ** Weapons
-** Ranged weapons
-** Spells (cauldron system?)
+** Enemies drop things
 * Friday
+** Ranged weapons
 ** Packaging releases
 * Wishlist
+** Spells (cauldron system?)
 ** "Generating map" dialog
 ** Enemies with equipment, armor, etc.

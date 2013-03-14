@@ -150,7 +150,8 @@ function Game:keypressed(key)
                 self:open_door(new_loc)
                 self:tick()
             elseif self.map_items:at(new_loc) then
-                self:attack(new_loc)
+                local it = self.map_items:at(new_loc)
+                it:bump(self, new_loc)
                 self:tick()
                 self:make_noise()
             else
@@ -262,32 +263,6 @@ function Game:open_door(pt)
                 end)
 
     self.sidebar:redraw_minimap() -- This is a great candidate for pubsub
-end
-
-function Game:attack(pt)
-    local enemy = self.map_items:at(pt)
-    assert(enemy)
-    local weapon = self:active_item('weapon') or Fist()
-    local dmg = weapon:calculate_damage()
-    enemy:show_damage(pt, -dmg)
-
-    if dmg == 0 then
-        self:log("You flail wildly, missing the " .. enemy.name .. " completely.",
-                 {0, 160, 0})
-    else
-        self:log("You " .. weapon.verb
-                 .. ' the ' .. enemy.name
-                 .. ' with your ' .. string.lower(weapon.name)
-                 .. ', dealing ' .. dmg .. ' damage.',
-         {0, 255, 0})
-
-        enemy.health = enemy.health - dmg
-        if enemy.health <= 0 then
-            self.map_items:delete(pt)
-            self.decoration:at(pt, Decoration.corpse)
-            self:log("You have killed the " .. enemy.name)
-        end
-    end
 end
 
 function Game:hit_player(enemy, damage)
