@@ -143,4 +143,6 @@ function Drawing:draw_player()
                 self.player_loc.x * 40 + 4,
                 self.player_loc.y * 40 + 4)
     end
+
+    self:draw_damage()
 end

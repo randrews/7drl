@@ -1,6 +1,7 @@
 Game = class('Game')
 
 Game:include(Drawing)
+Game:include(DamageEffect)
 
 function Game.static.setup()
     Game.images = {}
@@ -251,6 +252,7 @@ function Game:attack(pt)
     assert(enemy)
     local weapon = self:active_item('weapon') or Fist()
     local dmg = weapon:calculate_damage()
+    enemy:show_damage(pt, -dmg)
 
     if dmg == 0 then
         self:log("You flail wildly, missing the " .. enemy.name .. " completely.",
@@ -272,6 +274,8 @@ function Game:attack(pt)
 end
 
 function Game:hit_player(enemy, damage)
+    self:show_damage(self.player_loc, -damage)
+
     if damage == 0 then
         self:log("The " .. enemy.name .. " attacks you but misses.", {160, 0, 0})
     else

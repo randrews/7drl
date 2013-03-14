@@ -1,4 +1,5 @@
 Enemy = class('Enemy')
+Enemy:include(DamageEffect)
 
 function Enemy:init(opts)
     self.name = opts.name ; assert(self.name)
@@ -80,6 +81,8 @@ function Enemy:draw(pt)
         g.print("Zzz", pt.x*40+self.zzz.x, pt.y*40+self.zzz.y.value)
         g.setColor(c)
     end
+
+    self:draw_damage()
 end
 
 function Enemy:makeZzz()

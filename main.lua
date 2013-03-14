@@ -12,6 +12,7 @@ require('Promise')
 require('utils')
 
 require('Drawing')
+require('DamageEffect')
 require('Game')
 require('Sidebar')
 require('Item')
