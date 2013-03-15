@@ -283,12 +283,18 @@ function Game:open_door(pt)
 end
 
 function Game:hit_player(enemy, damage)
-    self:show_damage(self.player_loc, -damage)
+    local blocked = self.armor
+    local final = damage - blocked
 
     if damage == 0 then
+        self:show_miss(self.player_loc)
         self:log("The " .. enemy.name .. " attacks you but misses.", {160, 0, 0})
+    elseif final == 0 then
+        self:show_clang(self.player_loc)
+        self:log("The " .. enemy.name .. " is stopped by your armor.", {160, 160, 0})
     else
-        self.health = self.health - damage
+        self:show_damage(self.player_loc, -final)
+        self.health = self.health - final
         self:log("The " .. enemy.name .. " attacks you for " .. damage .. " damage!", {255, 0, 0})
     end        
 end
