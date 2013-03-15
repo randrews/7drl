@@ -88,7 +88,7 @@ function Sidebar:update()
 
     local health_str = self.game.health .. " / " .. self.game.max_health
 
-    self.level:SetText{white, "Level " .. self.game.level}
+    self.level:SetText{white, "Level " .. self.game.level_num}
     self.health:SetText{white, "Health: ", health_color, health_str}
     self.armor:SetText{white, "Armor: " .. self.game.armor}
     self.score:SetText{white, "Score: " .. self.game.score}

@@ -74,7 +74,7 @@ function Game:initialize(strs)
     self.health = 0
     self.max_health = 0
     self.armor = 0
-    self.level = 0
+    self.level_num = 0
     self.score = 0
     self.bg_effect = {value=255}
     self.key_repeat_clock = nil
@@ -84,7 +84,8 @@ function Game:initialize(strs)
 end
 
 function Game:next_level()
-    self.level = self.level + 1
+    self.level_num = self.level_num + 1
+    self.level = Level.LEVELS[self.level_num]
     self.generator = MapGenerator()
     self.map = self.generator.map
 
@@ -229,7 +230,7 @@ function Game:tick()
         self:set_freeze(true)
         local str = string.format(
             "You have died on level %s, \n with a score of %s. \n Would you like to try again?",
-            self.level, self.score)
+            self.level_num, self.score)
         local prom = utils.dialog('You have died', str, 'Restart', 'Quit', 35)
 
         prom:add(function(btn)
@@ -291,11 +292,10 @@ function Game:reveal_items(revealed, hallway)
     local num_enemies = 0
     local chest = false
     if hallway then
-        num_enemies = math.floor(revealed:length() / 10)
+        num_enemies = math.floor(revealed:length() * self.level.hall_enemy_rate)
     else
-        num_enemies = math.floor(revealed:length() / 5)
-        -- if num_enemies > 0 then num_enemies = num_enemies + math.random(-2, 2) end
-        chest = num_enemies > 2
+        num_enemies = math.floor(revealed:length() * self.level.room_enemy_rate)
+        chest = num_enemies >= self.level.chest_guards
     end
 
     -- Pull a random point out
@@ -306,13 +306,15 @@ function Game:reveal_items(revealed, hallway)
 
     for n = 1, num_enemies do
         local p = get_point()
-        local orc = Orc()
-        self.map_items:at(p, orc)
+        local enemy = (self.level.enemies:random())()
+        self.map_items:at(p, enemy)
     end
 
-    if chest or true then
+    if chest and math.random() <= self.level.chest_chance then
         local p = get_point()
-        self.map_items:at(p, Chest(HealthPotion(), Clothes()))
+        local i1 = (self.level.chest_items:random())()
+        local i2 = (self.level.chest_items:random())()
+        self.map_items:at(p, Chest(i1, i2))
     end
 end
 
