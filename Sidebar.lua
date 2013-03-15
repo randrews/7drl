@@ -42,15 +42,15 @@ function Sidebar:initialize(game)
     self.map:SetText('Map')
 
     -- Buttons (row 2)
-    self.help = loveframes.Create('button', self.panel)
-    self.help:SetSize(85, 20)
-    self.help:SetPos(10, 570)
-    self.help:SetText('Help')
-
     self.exit = loveframes.Create('button', self.panel)
     self.exit:SetSize(85, 20)
-    self.exit:SetPos(105, 570)
+    self.exit:SetPos(10, 570)
     self.exit:SetText('Exit')
+
+    -- self.help = loveframes.Create('button', self.panel)
+    -- self.help:SetSize(85, 20)
+    -- self.help:SetPos(105, 570)
+    -- self.help:SetText('Help')
 
     self.minimap = nil
 
