@@ -122,8 +122,38 @@ function Orc:initialize()
         health = math.random(3, 7),
         icon = Point(32, 0),
         damage = {1, 3},
+        hit = 0.35
+    }
+end
+
+--------------------------------------------------
+
+Skeleton = class('Skeleton', Enemy)
+
+function Skeleton:initialize()
+    self:init{
+        name = "skeleton",
+        health = math.random(5, 12),
+        icon = Point(224, 0),
+        damage = {3, 7},
         hit = 0.4
     }
 end
+
+--------------------------------------------------
+
+Troll = class('Troll', Enemy)
+
+function Troll:initialize()
+    self:init{
+        name = "troll",
+        health = math.random(15, 20),
+        icon = Point(288, 0),
+        damage = 8,
+        hit = 0.2
+    }
+end
+
+--------------------------------------------------
 
 return Enemy

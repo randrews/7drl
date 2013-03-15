@@ -28,6 +28,38 @@ end
 
 --------------------------------------------------------------------------------
 
+Longsword = class('Longsword', Weapon)
+
+function Longsword:initialize()
+    self:init{
+        name = 'Longsword',
+        verb = 'cleave',
+        icon = Point(1312, 0),
+        paperdoll = Point(1280, 0),
+        image = Game.images.equipment,
+        damage = {5, 8},
+        hit = 0.65
+    }
+end
+
+--------------------------------------------------------------------------------
+
+Axe = class('Axe', Weapon)
+
+function Axe:initialize()
+    self:init{
+        name = 'Axe',
+        verb = 'chop',
+        icon = Point(1440, 0),
+        paperdoll = Point(1408, 0),
+        image = Game.images.equipment,
+        damage = 6,
+        hit = 0.35
+    }
+end
+
+--------------------------------------------------------------------------------
+
 Hammer = class('Hammer', Weapon)
 
 function Hammer:initialize()

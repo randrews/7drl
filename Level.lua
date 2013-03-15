@@ -37,16 +37,73 @@ end
 
 --------------------------------------------------
 
+local HP = HealthPotion ; local G = Gold
+
 Level.static.LEVELS = {
     -- 1 --------------------
     Level{
         enemies = List{Orc},
-        chest_items = List{HealthPotion, HealthPotion, Gold, ShortSword, Hammer},
+        chest_items = List{HP, HP, G, ShortSword, Hammer},
         gold_range = {10, 20},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.1,
         chest_chance = 0.5,
         chest_guards = 0,
+    },
+
+    -- 2 --------------------
+    Level{
+        enemies = List{Orc, Skeleton},
+        chest_items = List{HealthPotion, HealthPotion, Gold, Axe, LongSword},
+        gold_range = {50, 120},
+        hall_enemy_rate = 0,
+        room_enemy_rate = 0.15,
+        chest_chance = 0.5,
+        chest_guards = 1,
+    },
+
+    -- 3 --------------------
+    Level{
+        enemies = List{Orc, Skeleton, Skeleton},
+        chest_items = List{HealthPotion, Gold, Axe, LongSword},
+        gold_range = {90, 200},
+        hall_enemy_rate = 0.1,
+        room_enemy_rate = 0.2,
+        chest_chance = 0.5,
+        chest_guards = 2,
+    },
+
+    -- 4 --------------------
+    Level{
+        enemies = List{Orc, Skeleton, Skeleton, Troll},
+        chest_items = List{HealthPotion, Gold, },
+        gold_range = {150, 300},
+        hall_enemy_rate = 0.1,
+        room_enemy_rate = 0.2,
+        chest_chance = 0.5,
+        chest_guards = 2,
+    },
+
+    -- 5 --------------------
+    Level{
+        enemies = List{Skeleton, Skeleton, Troll},
+        chest_items = List{HealthPotion, Gold, Gold, },
+        gold_range = {250, 500},
+        hall_enemy_rate = 0.15,
+        room_enemy_rate = 0.2,
+        chest_chance = 0.5,
+        chest_guards = 2,
+    },
+
+    -- 5 --------------------
+    Level{
+        enemies = List{Skeleton, Troll},
+        chest_items = List{HealthPotion, Gold, Gold, Axe, LongSword},
+        gold_range = {300, 800},
+        hall_enemy_rate = 0.15,
+        room_enemy_rate = 0.2,
+        chest_chance = 0.5,
+        chest_guards = 2,
     },
 }
 
