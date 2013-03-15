@@ -21,6 +21,7 @@ require('MapGenerator')
 require('MapItem')
 require('Enemy')
 require('Decoration')
+require('Level')
 
 function love.load()
     math.randomseed(os.time())
