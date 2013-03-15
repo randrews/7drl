@@ -28,12 +28,15 @@
 ** DONE Catch-up
 * Thursday
 ** DONE Chests
+** DONE Levels get harder
+** DONE Health increases with levels
 * Friday
 ** Packaging releases
+** A way to win
 * Items
-** At least a few weapons
+** DONE At least a few weapons
 ** At least a few armor pieces
-** Gold
+** DONE Gold
 ** Shields (damage is done to shield first)
 ** Sneaking shoes
 ** DONE Health potions

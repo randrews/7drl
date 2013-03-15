@@ -18,6 +18,11 @@ function Level:initialize(opts)
 
     -- Min and max for gold pile sizes
     self.gold_range = opts.gold_range ; assert(type(self.gold_range) == 'table' and #self.gold_range == 2)
+
+    -- Max health a player can have here (health is increased in proportion,
+    -- e.g., if you have 10 / 20, then going to the next level will give you
+    -- 15 / 30)
+    self.max_health = opts.max_health ; assert(self.max_health)
 end
 
 -- Returns a randomly-filled chest
@@ -50,6 +55,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.1,
         chest_chance = 0.5,
         chest_guards = 0,
+        max_health = 20
     },
 
     -- 2 --------------------
@@ -61,6 +67,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.15,
         chest_chance = 0.5,
         chest_guards = 1,
+        max_health = 30
     },
 
     -- 3 --------------------
@@ -72,6 +79,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.2,
         chest_chance = 0.5,
         chest_guards = 2,
+        max_health = 45
     },
 
     -- 4 --------------------
@@ -83,6 +91,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.2,
         chest_chance = 0.5,
         chest_guards = 2,
+        max_health = 60,
     },
 
     -- 5 --------------------
@@ -94,6 +103,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.2,
         chest_chance = 0.5,
         chest_guards = 2,
+        max_health = 80,
     },
 
     -- 6 --------------------
@@ -105,6 +115,7 @@ Level.static.LEVELS = {
         room_enemy_rate = 0.2,
         chest_chance = 0.5,
         chest_guards = 2,
+        max_health = 100,
     },
 }
 

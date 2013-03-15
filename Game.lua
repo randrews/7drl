@@ -89,6 +89,10 @@ function Game:next_level()
     self.generator = MapGenerator()
     self.map = self.generator.map
 
+    local hp = self.health / self.max_health
+    self.max_health = self.level.max_health
+    self.health = math.ceil(self.level.max_health * hp)
+
     self.visibility = Map(self.map.width, self.map.height)
     self.map_items = SparseMap(self.map.width, self.map.height)
     self.decoration = SparseMap(self.map.width, self.map.height)
