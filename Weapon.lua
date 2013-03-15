@@ -3,20 +3,27 @@ Weapon = class('Weapon', Item)
 function Weapon:init(opts)
     opts.wearable = true
     opts.category = 'weapon'
-    Item.init(self, opts)
-
     self.verb = opts.verb or 'attack'
     self.damage = opts.damage
-    assert(type(self.damage) == 'number' or
-       type(self.damage) == 'table' and #self.damage == 2)
-
+    assert(type(self.damage) == 'number' or type(self.damage) == 'table' and #self.damage == 2)
     self.hit = opts.hit or 0 -- between 0 and 1, higher means less chance of a miss
+    opts.description = opts.description or self:make_description()
+    Item.init(self, opts)
 end
 
 function Weapon:calculate_damage()
     if math.random() > self.hit then return 0
     elseif type(self.damage) == 'number' then return self.damage
     else return math.random(unpack(self.damage)) end
+end
+
+function Weapon:make_description()
+    local dmg = nil
+    if type(self.damage) == 'number' then dmg = self.damage .. " damage"
+    else dmg = string.format("%s-%s damage", unpack(self.damage)) end
+
+    local to_hit = math.floor(self.hit * 100) .. '%'
+    return string.format("%s, %s chance to hit.", dmg, to_hit)
 end
 
 --------------------------------------------------------------------------------

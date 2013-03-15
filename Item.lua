@@ -13,6 +13,7 @@ function Item:init(opts)
     self.image = opts.image ; assert(self.image)
     self.usable = opts.usable
     self.wearable = opts.wearable
+    self.description = opts.description ; assert(self.description)
 
     if self.paperdoll then
         local w = self.image:getWidth()
@@ -24,16 +25,29 @@ function Item:init(opts)
     end
 end
 
+function Item:create_tooltip()
+    local tooltip = loveframes.Create('tooltip')
+    tooltip:SetTextMaxWidth(150)
+    tooltip:SetPadding(5)
+    tooltip:SetOffsets(-165, 5)
+    tooltip:SetText(self.name .. " \n \n " .. self.description)
+    return tooltip
+end
+
 function Item:create_panel(panel, sidebar)
     local icon = loveframes.Create('image', panel)
     icon:SetImage(self.image)
     icon:SetSize(32, 32)
     icon:SetPos(0, 0)
     icon:SetOffset(self.icon())
+    self:create_tooltip():SetObject(icon)
 
     self.label = loveframes.Create('text', panel)
     self.label:SetPos(42, 10)
     self.label:SetText(self.name)
+    self:create_tooltip():SetObject(self.label)
+
+    self:create_tooltip():SetObject(panel)
 
     if self.usable then
         self.use_button = loveframes.Create('button', panel)
@@ -100,7 +114,8 @@ function Clothes:initialize()
         wearable = true,
         icon = Point(3168, 0),
         paperdoll = Point(3136, 0),
-        image = Game.images.equipment
+        image = Game.images.equipment,
+        description = "Normal street clothes: jeans, and a t-shirt you bought from the Internet. They aren't going to offer much protection."
     }
 end
 
@@ -121,7 +136,8 @@ function HealthPotion:initialize()
         name = 'Health potion',
         usable = true,
         icon = Point(160, 0),
-        image = Game.images.extras
+        image = Game.images.extras,
+        description = "A bright red potion. It looks healthy. \n (Restores up to 10 health)"
     }
 end
 

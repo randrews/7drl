@@ -95,12 +95,12 @@ function Game:next_level()
 
     self.player_loc = self.map:find_value('@'):shift()
     self.map:at(self.player_loc, '.')
-    self:reveal(self.player_loc)
 
     self.stairs_loc = self.map:find_value('='):shift()
     self.map:at(self.stairs_loc, '.')
     self.map_items:at(self.stairs_loc, Stairs())
 
+    self:reveal(self.player_loc)
     self.sidebar:redraw_minimap()
 end
 

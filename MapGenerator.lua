@@ -12,8 +12,6 @@ function MapGenerator:generate()
     self:create_rooms(self.maze) -- Turn 1/3 of the cells into rooms
     self.map = self:expand(self.maze) -- Make a map that follows the layout of the maze
     self:add_walls(self.map) -- Add walls and doors
-    -- self:place_monsters(self.map) -- Monsters!
-    -- self:place_chests(self.map) -- Chests and treasure piles
     self:place_player(self.map) -- Player start and exit
 
     return self.map
