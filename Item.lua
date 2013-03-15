@@ -158,6 +158,33 @@ function HealthPotion:use(game)
         game:tick() -- Using a potion counts as your turn
     end
 end
+--------------------------------------------------------------------------------
+
+Gold = class('Gold', Item)
+
+function Gold:initialize(value)
+    self.value = value
+
+    self:init{
+        name = value .. ' gold',
+        icon = Point(128, 0),
+        image = Game.images.extras,
+        description = value .. " gold coins \n (increases your score)"
+    }
+end
+
+function HealthPotion:use(game)
+    if game.health == game.max_health then
+        game:log("You don't feel you need to drink this now.")
+    else
+        game:remove_item(self)
+        local new_health = math.min(game.health + 10, game.max_health)
+        game:show_damage(game.player_loc, new_health - game.health)
+        game.health = new_health
+        game:log("You feel refreshed!", {0, 160, 0})
+        game:tick() -- Using a potion counts as your turn
+    end
+end
 
 --------------------------------------------------------------------------------
 

@@ -15,6 +15,24 @@ function Level:initialize(opts)
 
     -- Never place a chest in rooms with fewer than this many enemies
     self.chest_guards = opts.chest_guards or 0
+
+    -- Min and max for gold pile sizes
+    self.gold_range = opts.gold_range ; assert(type(self.gold_range) == 'table' and #self.gold_range == 2)
+end
+
+-- Returns a randomly-filled chest
+function Level:chest()
+    local c1 = self.chest_items:random()
+    local c2 = self.chest_items:random()
+
+    -- Make sure we give 'em a choice...
+    if c1 == c2 then return self:chest() end
+
+    -- Most items don't take any args, but gold takes an amount
+    local i1 = c1(math.random(unpack(self.gold_range)))
+    local i2 = c2(math.random(unpack(self.gold_range)))
+
+    return Chest(i1, i2)
 end
 
 --------------------------------------------------
@@ -23,7 +41,8 @@ Level.static.LEVELS = {
     -- 1 --------------------
     Level{
         enemies = List{Orc},
-        chest_items = List{HealthPotion},
+        chest_items = List{HealthPotion, HealthPotion, Gold, ShortSword, Hammer},
+        gold_range = {10, 20},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.1,
         chest_chance = 0.5,

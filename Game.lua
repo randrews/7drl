@@ -122,8 +122,12 @@ function Game:reveal(pt)
 end
 
 function Game:add_item(item)
-    self.inventory:push(item)
-    self.sidebar:add_item(item)
+    if instanceOf(Gold, item) then
+        self.score = self.score + item.value
+    else
+        self.inventory:push(item)
+        self.sidebar:add_item(item)
+    end
 end
 
 function Game:remove_item(item)
@@ -312,9 +316,7 @@ function Game:reveal_items(revealed, hallway)
 
     if chest and math.random() <= self.level.chest_chance then
         local p = get_point()
-        local i1 = (self.level.chest_items:random())()
-        local i2 = (self.level.chest_items:random())()
-        self.map_items:at(p, Chest(i1, i2))
+        self.map_items:at(p, self.level:chest())
     end
 end
 

@@ -28,6 +28,38 @@ end
 
 --------------------------------------------------------------------------------
 
+Hammer = class('Hammer', Weapon)
+
+function Hammer:initialize()
+    self:init{
+        name = 'Hammer',
+        verb = 'whack',
+        icon = Point(672, 0),
+        paperdoll = Point(640, 0),
+        image = Game.images.equipment,
+        damage = 6,
+        hit = 0.2
+    }
+end
+
+--------------------------------------------------------------------------------
+
+ShortSword = class('ShortSword', Weapon)
+
+function ShortSword:initialize()
+    self:init{
+        name = 'Short sword',
+        verb = 'slash',
+        icon = Point(1184, 0),
+        paperdoll = Point(1152, 0),
+        image = Game.images.equipment,
+        damage = {2, 5},
+        hit = 0.65
+    }
+end
+
+--------------------------------------------------------------------------------
+
 Dagger = class('Dagger', Weapon)
 
 function Dagger:initialize()

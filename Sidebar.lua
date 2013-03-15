@@ -194,7 +194,7 @@ function Sidebar:create_minimap_canvas()
     g.rectangle('fill', 0, 0, 196, 196)
 
     for pt in self.game.map:each() do
-        if true or self.game.visibility:at(pt) then
+        if self.game.visibility:at(pt) then
             local c = self.game.map:at(pt)
 
             if c == '.' or c == ',' or c == '_' then
