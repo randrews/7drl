@@ -230,7 +230,7 @@ function Sidebar:draw_minimap()
                             self.game.player_loc.y*4,
                             4, 4)
 
-    if true or self.game.visibility:at(self.game.stairs_loc) then
+    if self.game.visibility:at(self.game.stairs_loc) then
         love.graphics.setColor(0, 0, 255)
         love.graphics.rectangle('fill',
                                 self.game.stairs_loc.x*4,

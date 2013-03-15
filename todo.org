@@ -32,6 +32,8 @@
 ** DONE Health increases with levels
 * Friday
 ** Packaging releases
+*** Remove wand of dev
+*** Make stairs not always visible
 ** A way to win
 * Items
 ** DONE At least a few weapons
