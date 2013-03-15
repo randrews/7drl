@@ -110,30 +110,6 @@ function Item:on_use(game) print("Using " .. self.name) end
 
 --------------------------------------------------------------------------------
 
-Clothes = class('Clothes', Item)
-
-function Clothes:initialize()
-    self:init{
-        name = 'Clothes',
-        category = 'armor',
-        wearable = true,
-        icon = Point(3168, 0),
-        paperdoll = Point(3136, 0),
-        image = Game.images.equipment,
-        description = "Normal street clothes: jeans, and a t-shirt you bought from the Internet. They aren't going to offer much protection."
-    }
-end
-
-function Clothes:on_activate(game)
-    game.armor = 1
-end
-
-function Clothes:on_deactivate(game)
-    game.armor = 0
-end
-
---------------------------------------------------------------------------------
-
 HealthPotion = class('HealthPotion', Item)
 
 function HealthPotion:initialize()
