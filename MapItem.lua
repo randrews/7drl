@@ -45,6 +45,7 @@ function Stairs:bump(game, pt)
     prom:add(function(btn)
                  game:set_freeze(false)
                  if btn == 'Yes' then
+                     game:log("You descend to level " .. (game.level_num+1), {255, 255, 0})
                      game:next_level()
                  end
              end)
