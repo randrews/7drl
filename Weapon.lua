@@ -28,6 +28,38 @@ end
 
 --------------------------------------------------------------------------------
 
+Mace = class('Mace', Weapon)
+
+function Mace:initialize()
+    self:init{
+        name = 'Mace',
+        verb = 'smash',
+        icon = Point(1376, 0),
+        paperdoll = Point(1344, 0),
+        image = Game.images.equipment,
+        damage = 12,
+        hit = 0.65
+    }
+end
+
+--------------------------------------------------------------------------------
+
+Spear = class('Spear', Weapon)
+
+function Spear:initialize()
+    self:init{
+        name = 'Spear',
+        verb = 'impale',
+        icon = Point(864, 0),
+        paperdoll = Point(832, 0),
+        image = Game.images.equipment,
+        damage = {6, 9},
+        hit = 1
+    }
+end
+
+--------------------------------------------------------------------------------
+
 Longsword = class('Longsword', Weapon)
 
 function Longsword:initialize()

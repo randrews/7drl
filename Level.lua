@@ -44,6 +44,7 @@ Level.static.LEVELS = {
     Level{
         enemies = List{Orc},
         chest_items = List{HP, HP, G, ShortSword, Hammer},
+        -- chest_items = List{ShortSword, Hammer, Spear, Longsword, Mace},
         gold_range = {10, 20},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.1,
@@ -54,7 +55,7 @@ Level.static.LEVELS = {
     -- 2 --------------------
     Level{
         enemies = List{Orc, Skeleton},
-        chest_items = List{HealthPotion, HealthPotion, Gold, Axe, LongSword},
+        chest_items = List{HP, HP, G, Axe, Longsword},
         gold_range = {50, 120},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.15,
@@ -65,7 +66,7 @@ Level.static.LEVELS = {
     -- 3 --------------------
     Level{
         enemies = List{Orc, Skeleton, Skeleton},
-        chest_items = List{HealthPotion, Gold, Axe, LongSword},
+        chest_items = List{HP, G, Axe, Longsword},
         gold_range = {90, 200},
         hall_enemy_rate = 0.1,
         room_enemy_rate = 0.2,
@@ -76,7 +77,7 @@ Level.static.LEVELS = {
     -- 4 --------------------
     Level{
         enemies = List{Orc, Skeleton, Skeleton, Troll},
-        chest_items = List{HealthPotion, Gold, },
+        chest_items = List{HP, G, Spear, Mace, },
         gold_range = {150, 300},
         hall_enemy_rate = 0.1,
         room_enemy_rate = 0.2,
@@ -87,7 +88,7 @@ Level.static.LEVELS = {
     -- 5 --------------------
     Level{
         enemies = List{Skeleton, Skeleton, Troll},
-        chest_items = List{HealthPotion, Gold, Gold, },
+        chest_items = List{HP, G, G,},
         gold_range = {250, 500},
         hall_enemy_rate = 0.15,
         room_enemy_rate = 0.2,
@@ -95,10 +96,10 @@ Level.static.LEVELS = {
         chest_guards = 2,
     },
 
-    -- 5 --------------------
+    -- 6 --------------------
     Level{
         enemies = List{Skeleton, Troll},
-        chest_items = List{HealthPotion, Gold, Gold, Axe, LongSword},
+        chest_items = List{HP, G, G,},
         gold_range = {300, 800},
         hall_enemy_rate = 0.15,
         room_enemy_rate = 0.2,
