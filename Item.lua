@@ -34,13 +34,18 @@ function Item:create_tooltip()
     return tooltip
 end
 
-function Item:create_panel(panel, sidebar)
-    local icon = loveframes.Create('image', panel)
+function Item:create_icon(parent)
+    local icon = loveframes.Create('image', parent)
     icon:SetImage(self.image)
     icon:SetSize(32, 32)
-    icon:SetPos(0, 0)
     icon:SetOffset(self.icon())
     self:create_tooltip():SetObject(icon)
+    return icon
+end
+
+function Item:create_panel(panel, sidebar)
+    local icon = self:create_icon(panel)
+    icon:SetPos(0, 0)
 
     self.label = loveframes.Create('text', panel)
     self.label:SetPos(42, 10)
@@ -52,7 +57,7 @@ function Item:create_panel(panel, sidebar)
     if self.usable then
         self.use_button = loveframes.Create('button', panel)
         self.use_button:SetSize(32, 32)
-        self.use_button:SetPos(panel:GetWidth()-32, 0)
+        self.use_button:SetPos(148, 0)
         self.use_button:SetText("Use")
         self.use_button.OnClick = function() self:use(sidebar.game) end
     elseif self.wearable then
@@ -133,7 +138,7 @@ HealthPotion = class('HealthPotion', Item)
 
 function HealthPotion:initialize()
     self:init{
-        name = 'Health potion',
+        name = 'Health Potion',
         usable = true,
         icon = Point(160, 0),
         image = Game.images.extras,

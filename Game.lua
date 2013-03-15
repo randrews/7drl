@@ -288,12 +288,14 @@ function Game:reveal_items(revealed, hallway)
     -- Drop the places, if any, that there's already an item.
     revealed = revealed:select(function(p) return not self.map_items:at(p) end)
 
-    -- In the future, sometimes there will be chests
     local num_enemies = 0
+    local chest = false
     if hallway then
         num_enemies = math.floor(revealed:length() / 10)
     else
         num_enemies = math.floor(revealed:length() / 5)
+        -- if num_enemies > 0 then num_enemies = num_enemies + math.random(-2, 2) end
+        chest = num_enemies > 2
     end
 
     -- Pull a random point out
@@ -306,6 +308,11 @@ function Game:reveal_items(revealed, hallway)
         local p = get_point()
         local orc = Orc()
         self.map_items:at(p, orc)
+    end
+
+    if chest or true then
+        local p = get_point()
+        self.map_items:at(p, Chest(HealthPotion(), Clothes()))
     end
 end
 

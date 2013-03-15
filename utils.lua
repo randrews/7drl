@@ -4,7 +4,7 @@ CURRENT_DIALOG = nil
 
 function dialog(title, text, button1_text, button2_text, y)
     local promise = Promise()
-    
+
     local dialog = loveframes.Create('frame')
     dialog:SetSize(200, 120)
     dialog:Center()
@@ -32,7 +32,7 @@ function dialog(title, text, button1_text, button2_text, y)
         local str = btn:GetText()
         dialog:Remove()
         CURRENT_DIALOG = nil
-        promise:finish(str)
+        promise:finish(str, btn)
     end
 
     btn1.OnClick = finished
@@ -40,7 +40,13 @@ function dialog(title, text, button1_text, button2_text, y)
 
     CURRENT_DIALOG = {dialog = dialog, btn1 = btn1, btn2 = btn2}
 
-    return promise
+    return promise, CURRENT_DIALOG
+end
+
+function modal(frame)
+    local promise = Promise()
+    
+
 end
 
 function capture_input() return CURRENT_DIALOG end

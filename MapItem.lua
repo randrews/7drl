@@ -52,4 +52,63 @@ end
 
 --------------------------------------------------
 
+Chest = class('Chest', MapItem)
+
+function Chest:initialize(item1, item2)
+    self:init{
+        name = "Chest",
+        icon = Point(96, 0),
+        size = Point(32, 32),
+        image = Game.images.extras
+    }
+
+    self.item1 = item1 ; assert(item1)
+    self.item2 = item2 ; assert(item2)
+end
+
+function Chest:bump(game, pt)
+    game:set_freeze(true)
+    local prom = self:make_dialog(game)
+
+    prom:add(function(_, btn)
+                 game:set_freeze(false)
+                 if btn.item then
+                     game:add_item(btn.item)
+                     game.map_items:delete(pt)
+                 end
+             end)
+end
+
+function Chest:make_dialog(game)
+    -- Raise a standard dialog
+    local prom, dialog = utils.dialog("Chest", "Which item do you want?")
+
+    -- Make it look like a chest dialog
+    dialog.dialog:SetSize(200, 170)
+    dialog.dialog:Center()
+    dialog.btn1:SetPos(10, 140)
+    dialog.btn2:SetPos(105, 140)
+    dialog.dialog:ShowCloseButton(true)
+
+    dialog.dialog.OnClose = function()
+                                CURRENT_DIALOG = nil
+                                prom:finish()
+                                game:set_freeze(false)
+                            end
+
+    local item1 = self.item1:create_icon(dialog.dialog)
+    item1:SetPos(34, 80)
+    dialog.btn1:SetText(self.item1.name)
+    dialog.btn1.item = self.item1
+
+    local item2 = self.item2:create_icon(dialog.dialog)
+    item2:SetPos(134, 80)
+    dialog.btn2:SetText(self.item2.name)
+    dialog.btn2.item = self.item2
+
+    return prom
+end
+
+--------------------------------------------------
+
 return MapItem

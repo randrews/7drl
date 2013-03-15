@@ -16,23 +16,30 @@
 * DONE Tuesday
 ** DONE Enemies
 ** DONE Enemies can be hit, killed
+** DONE Weapons
 ** DONE Nicer key repeat rules
    Hold down: do nothing for 1 sec, then repeat 0.1
-* Wednesday
+* DONE Wednesday
 ** DONE Enemies wake up
 ** DONE Enemies walk toward player
 ** DONE Enemies hit back!
 ** DONE Player can die
-** Stairs
+** DONE Stairs
 ** DONE Catch-up
 * Thursday
-** Items
-** Weapons
-** Enemies drop things
+** DONE Chests
 * Friday
-** Ranged weapons
 ** Packaging releases
+* Items
+** At least a few weapons
+** At least a few armor pieces
+** Gold
+** Shields (damage is done to shield first)
+** Sneaking shoes
+** DONE Health potions
+** Crystal ball (reveals stairs on minimap)
 * Wishlist
+** Ranged weapons
 ** Spells (cauldron system?)
 ** "Generating map" dialog
 ** Enemies with equipment, armor, etc.
