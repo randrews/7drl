@@ -50,8 +50,8 @@ function Mace:initialize()
     self:init{
         name = 'Mace',
         verb = 'smash',
-        icon = Point(1376, 0),
-        paperdoll = Point(1344, 0),
+        icon = Point(32, 64),
+        paperdoll = Point(0, 64),
         image = Game.images.equipment,
         damage = 12,
         hit = 0.65
@@ -66,8 +66,8 @@ function Spear:initialize()
     self:init{
         name = 'Spear',
         verb = 'impale',
-        icon = Point(864, 0),
-        paperdoll = Point(832, 0),
+        icon = Point(64, 64),
+        paperdoll = Point(64, 64),
         image = Game.images.equipment,
         damage = {6, 9},
         hit = 1
@@ -82,8 +82,8 @@ function Longsword:initialize()
     self:init{
         name = 'Longsword',
         verb = 'cleave',
-        icon = Point(1312, 0),
-        paperdoll = Point(1280, 0),
+        icon = Point(32, 96),
+        paperdoll = Point(0, 96),
         image = Game.images.equipment,
         damage = {5, 8},
         hit = 0.65
@@ -98,8 +98,8 @@ function Axe:initialize()
     self:init{
         name = 'Axe',
         verb = 'chop',
-        icon = Point(1440, 0),
-        paperdoll = Point(1408, 0),
+        icon = Point(96, 96),
+        paperdoll = Point(64, 96),
         image = Game.images.equipment,
         damage = 6,
         hit = 0.35
@@ -114,8 +114,8 @@ function Hammer:initialize()
     self:init{
         name = 'Hammer',
         verb = 'whack',
-        icon = Point(672, 0),
-        paperdoll = Point(640, 0),
+        icon = Point(32, 128),
+        paperdoll = Point(0, 128),
         image = Game.images.equipment,
         damage = 6,
         hit = 0.2
@@ -130,8 +130,8 @@ function ShortSword:initialize()
     self:init{
         name = 'Short sword',
         verb = 'slash',
-        icon = Point(1184, 0),
-        paperdoll = Point(1152, 0),
+        icon = Point(96, 128),
+        paperdoll = Point(64, 128),
         image = Game.images.equipment,
         damage = {2, 5},
         hit = 0.65
@@ -146,8 +146,8 @@ function Dagger:initialize()
     self:init{
         name = 'Dagger',
         verb = 'stab',
-        icon = Point(544, 0),
-        paperdoll = Point(512, 0),
+        icon = Point(32, 160),
+        paperdoll = Point(0, 160),
         image = Game.images.equipment,
         damage = {1, 3},
         hit = 0.5
@@ -162,8 +162,8 @@ function DevWand:initialize()
     self:init{
         name = 'Wand of dev',
         verb = 'tweak reality around',
-        icon = Point(992, 0),
-        paperdoll = Point(960, 0),
+        icon = Point(96, 160),
+        paperdoll = Point(64, 160),
         image = Game.images.equipment,
         damage = 1000000,
         hit = 1
