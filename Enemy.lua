@@ -18,9 +18,16 @@ Enemy.calculate_damage = Weapon.calculate_damage
 
 -- Called when the player walks into the enemy
 function Enemy:bump(game, pt)
+    game:make_noise() -- Fighting is noisy!
+
     local weapon = game:active_item('weapon') or Fist()
     local dmg = weapon:calculate_damage()
-    self:show_damage(pt, -dmg)
+
+    if dmg == 0 then
+        self:show_miss(pt)
+    else
+        self:show_damage(pt, -dmg)
+    end
 
     if dmg == 0 then
         game:log("You flail wildly, missing the " .. self.name .. " completely.",

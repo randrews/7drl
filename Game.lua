@@ -12,6 +12,7 @@ function Game.static.setup()
     Game.images.equipment = love.graphics.newImage("art/equipment-32x32.png")
     Game.images.extras = love.graphics.newImage("art/extras-32x32.png")
     Game.images.decoration = love.graphics.newImage("art/decoration-20x20-40x40.png")
+    Game.images.custom = love.graphics.newImage("art/custom-32x32.png")
 
     Game.quads = {
         player = love.graphics.newQuad(0, 0, 32, 32, 320, 32),
@@ -52,6 +53,8 @@ function Game.static.start(game)
     -- Remove me before release!
     local wand = DevWand()
     game:add_item(wand)
+    game:add_item(Mirror())
+    game:add_item(Shoes())
 
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()
@@ -170,11 +173,13 @@ function Game:keypressed(key)
                 local it = self.map_items:at(new_loc)
                 it:bump(self, new_loc)
                 self:tick()
-                self:make_noise()
             else
                 self.player_loc = new_loc
                 self:tick()
-                self:make_noise()
+
+                if not self:active_item('shoes') then -- Don't make noise walking if we have shoes
+                    self:make_noise()
+                end
             end
         else
             self.bg_effect = Tween(140, 255, 0.5)

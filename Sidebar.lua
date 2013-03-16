@@ -47,11 +47,6 @@ function Sidebar:initialize(game)
     self.exit:SetPos(10, 570)
     self.exit:SetText('Exit')
 
-    -- self.help = loveframes.Create('button', self.panel)
-    -- self.help:SetSize(85, 20)
-    -- self.help:SetPos(105, 570)
-    -- self.help:SetText('Help')
-
     self.minimap = nil
 
     -- Button events

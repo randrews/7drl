@@ -26,7 +26,7 @@
 ** DONE Player can die
 ** DONE Stairs
 ** DONE Catch-up
-* Thursday
+* DONE Thursday
 ** DONE Chests
 ** DONE Levels get harder
 ** DONE Health increases with levels
@@ -39,9 +39,14 @@
 ** DONE At least a few weapons
 ** DONE At least a few armor pieces
 ** DONE Gold
-** Sneaking shoes
+** DONE Sneaking shoes
 ** DONE Health potions
-** Crystal ball (reveals stairs on minimap)
+** DONE Crystal ball (reveals stairs on minimap)
+** TODO Amulet of strength (adds 2-3 to all damage)
+** TODO Amulet of speed (adds 10% to hit chance)
+* Bugs
+** DONE Missing enemies prints -0, not miss
+** Keeps giving me weapons / armor I already have
 * Wishlist
 ** Shields (damage is done to shield first)
 ** Ranged weapons

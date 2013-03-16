@@ -49,7 +49,7 @@ Level.static.LEVELS = {
     -- 1 --------------------
     Level{
         enemies = List{Orc},
-        chest_items = List{HP, HP, G, ShortSword, Hammer, A1, A1},
+        chest_items = List{HP, HP, G, ShortSword, Hammer, A1, A1, Mirror},
         -- chest_items = List{A1, A2, A3},
         gold_range = {10, 20},
         hall_enemy_rate = 0,
@@ -62,7 +62,7 @@ Level.static.LEVELS = {
     -- 2 --------------------
     Level{
         enemies = List{Orc, Skeleton},
-        chest_items = List{HP, HP, G, Axe, Longsword, A1},
+        chest_items = List{HP, HP, G, Axe, Longsword, A1, Mirror, Shoes},
         gold_range = {50, 120},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.15,
@@ -74,7 +74,7 @@ Level.static.LEVELS = {
     -- 3 --------------------
     Level{
         enemies = List{Orc, Skeleton, Skeleton},
-        chest_items = List{HP, G, Axe, Longsword, A2},
+        chest_items = List{HP, G, Axe, Longsword, A2, Mirror, Shoes},
         gold_range = {90, 200},
         hall_enemy_rate = 0.1,
         room_enemy_rate = 0.2,
@@ -85,7 +85,7 @@ Level.static.LEVELS = {
 
     -- 4 --------------------
     Level{
-        enemies = List{Orc, Skeleton, Skeleton, Troll},
+        enemies = List{Orc, Skeleton, Skeleton, Troll, Mirror, Shoes},
         chest_items = List{HP, G, Spear, Mace, A2},
         gold_range = {150, 300},
         hall_enemy_rate = 0.1,
@@ -97,7 +97,7 @@ Level.static.LEVELS = {
 
     -- 5 --------------------
     Level{
-        enemies = List{Skeleton, Skeleton, Troll},
+        enemies = List{Skeleton, Skeleton, Troll, Mirror},
         chest_items = List{HP, G, G, A3},
         gold_range = {250, 500},
         hall_enemy_rate = 0.15,
@@ -109,7 +109,7 @@ Level.static.LEVELS = {
 
     -- 6 --------------------
     Level{
-        enemies = List{Skeleton, Troll},
+        enemies = List{Skeleton, Troll, Mirror},
         chest_items = List{HP, G, G,},
         gold_range = {300, 800},
         hall_enemy_rate = 0.15,
