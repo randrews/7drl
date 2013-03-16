@@ -11,10 +11,26 @@ function Weapon:init(opts)
     Item.init(self, opts)
 end
 
-function Weapon:calculate_damage()
-    if math.random() > self.hit then return 0
-    elseif type(self.damage) == 'number' then return self.damage
-    else return math.random(unpack(self.damage)) end
+function Weapon:calculate_damage(game)
+    local amulet = nil
+    if game then amulet = game:active_item('amulet') end
+
+    local dmg = 0
+    local hit = self.hit
+
+    if amulet and instanceOf(AmuletSpeed, amulet) then
+        hit = hit + 0.15
+    end
+
+    if math.random() > hit then dmg = 0
+    elseif type(self.damage) == 'number' then dmg = self.damage
+    else dmg = math.random(unpack(self.damage)) end
+
+    if dmg > 0 and amulet and instanceOf(AmuletStrength, amulet) then
+        dmg = dmg + 2
+    end
+
+    return dmg
 end
 
 function Weapon:make_description()

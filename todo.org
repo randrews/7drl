@@ -42,8 +42,8 @@
 ** DONE Sneaking shoes
 ** DONE Health potions
 ** DONE Crystal ball (reveals stairs on minimap)
-** TODO Amulet of strength (adds 2-3 to all damage)
-** TODO Amulet of speed (adds 10% to hit chance)
+** DONE Amulet of strength (adds 2-3 to all damage)
+** DONE Amulet of speed (adds 15% to hit chance)
 * Bugs
 ** DONE Missing enemies prints -0, not miss
 ** Keeps giving me weapons / armor I already have

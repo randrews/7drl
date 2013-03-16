@@ -55,6 +55,8 @@ function Game.static.start(game)
     game:add_item(wand)
     game:add_item(Mirror())
     game:add_item(Shoes())
+    game:add_item(AmuletStrength())
+    game:add_item(AmuletSpeed())
 
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()

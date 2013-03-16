@@ -144,6 +144,7 @@ function Gold:initialize(value)
 
     self:init{
         name = value .. ' gold',
+        usable =  true, -- otherwise it'll dedupe it and give us gold
         icon = Point(128, 0),
         image = Game.images.extras,
         description = value .. " gold coins \n (increases your score)"
@@ -180,12 +181,42 @@ Shoes = class('Shoes', Item)
 
 function Shoes:initialize()
     self:init{
-        name = 'Shoes of Sneaking',
+        name = 'Sneaking Shoes',
         category = 'shoes',
         wearable = true,
         icon = Point(32, 0),
         image = Game.images.custom,
         description = "These shoes make you much quieter \n (you will no longer awaken enemies by moving)"
+    }
+end
+
+--------------------------------------------------------------------------------
+
+AmuletStrength = class('AmuletStrength', Item)
+
+function AmuletStrength:initialize()
+    self:init{
+        name = 'Strength Amulet',
+        category = 'amulet',
+        wearable = true,
+        icon = Point(64, 0),
+        image = Game.images.custom,
+        description = "A glowing, fiery red amulet \n (increases damage by 2)"
+    }
+end
+
+--------------------------------------------------------------------------------
+
+AmuletSpeed = class('AmuletSpeed', Item)
+
+function AmuletSpeed:initialize()
+    self:init{
+        name = 'Speed Amulet',
+        category = 'amulet',
+        wearable = true,
+        icon = Point(96, 0),
+        image = Game.images.custom,
+        description = "A pale blue amulet \n (increases chance to hit by 15%)"
     }
 end
 
