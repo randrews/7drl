@@ -44,14 +44,13 @@ function START_GAME()
 end
 
 function love.draw()
-    if FPS then love.graphics.setColor(255, 255, 255) ; love.graphics.print(FPS, 0, 0) end
+    -- if FPS then love.graphics.setColor(255, 255, 255) ; love.graphics.print(FPS, 0, 0) end
     current_game:draw()
     loveframes.draw()
 end
 
 function love.update(dt)
     FPS = math.floor(1 / dt)
-    -- print(FPS)
     Clock.update(dt)
     Tween.update(dt)
     loveframes.update(dt)

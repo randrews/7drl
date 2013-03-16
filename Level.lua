@@ -49,8 +49,8 @@ Level.static.LEVELS = {
     -- 1 --------------------
     Level{
         enemies = List{Orc},
-        chest_items = List{HP, HP, G, ShortSword, Hammer, A1, A1, Mirror, Shoes, AmuletStrength, AmuletSpeed},
-        gold_range = {10, 20},
+        chest_items = List{HP, HP, G, ShortSword, Hammer, A1, A1, Mirror, AmuletStrength, AmuletSpeed},
+        gold_range = {50, 100},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.1,
         chest_chance = 0.5,
@@ -61,8 +61,8 @@ Level.static.LEVELS = {
     -- 2 --------------------
     Level{
         enemies = List{Orc, Skeleton},
-        chest_items = List{HP, HP, G, Axe, Longsword, A1, Mirror, Shoes, AmuletStrength, AmuletSpeed},
-        gold_range = {50, 120},
+        chest_items = List{HP, HP, G, Axe, Longsword, A1, Mirror, AmuletStrength, AmuletSpeed},
+        gold_range = {100, 150},
         hall_enemy_rate = 0,
         room_enemy_rate = 0.15,
         chest_chance = 0.5,
@@ -74,7 +74,7 @@ Level.static.LEVELS = {
     Level{
         enemies = List{Orc, Skeleton, Skeleton},
         chest_items = List{HP, G, Axe, Longsword, A2, Mirror, Shoes, AmuletStrength, AmuletSpeed},
-        gold_range = {90, 200},
+        gold_range = {75, 150},
         hall_enemy_rate = 0.1,
         room_enemy_rate = 0.2,
         chest_chance = 0.5,
@@ -86,7 +86,7 @@ Level.static.LEVELS = {
     Level{
         enemies = List{Orc, Skeleton, Skeleton, Troll},
         chest_items = List{HP, G, Spear, Mace, A2, Mirror, Shoes, AmuletStrength, AmuletSpeed},
-        gold_range = {150, 300},
+        gold_range = {200, 320},
         hall_enemy_rate = 0.1,
         room_enemy_rate = 0.2,
         chest_chance = 0.5,

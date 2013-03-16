@@ -44,6 +44,7 @@ function Enemy:bump(game, pt)
             game.map_items:delete(pt)
             game.decoration:at(pt, Decoration.corpse)
             game:log("You have killed the " .. self.name)
+            game.score = game.score + game.level_num * 20
         end
     end
 
