@@ -34,7 +34,7 @@
 ** Packaging releases
 *** Remove wand of dev
 *** Make stairs not always visible
-** A way to win
+** DONE A way to win
 * DONE Items
 ** DONE At least a few weapons
 ** DONE At least a few armor pieces
@@ -46,7 +46,8 @@
 ** DONE Amulet of speed (adds 15% to hit chance)
 * Bugs
 ** DONE Missing enemies prints -0, not miss
-** Keeps giving me weapons / armor I already have
+** DONE Keeps giving me weapons / armor I already have
+** DONE Fix image alignment in custom!
 * Wishlist
 ** Shields (damage is done to shield first)
 ** Ranged weapons

@@ -58,7 +58,7 @@ Scepter = class('Scepter', MapItem)
 function Scepter:initialize()
     self:init{
         name = "Scepter",
-        icon = Point(128, 0),
+        icon = Point(140, 0),
         size = Point(32, 32),
         image = Game.images.custom
     }
@@ -68,8 +68,8 @@ function Scepter:bump(game, pt)
     game:set_freeze(true)
     local prom = utils.dialog("You win!",
                               "You have found the \n royal scepter, and \n win the game! \n Your final score is " .. game.score,
-                              "Quit",
                               "Restart",
+                              "Quit",
                               30)
 
     prom:add(function(btn)

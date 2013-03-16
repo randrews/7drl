@@ -51,12 +51,12 @@ function Game.static.start(game)
     game:add_item(dagger)
 
     -- Remove me before release!
-    local wand = DevWand()
-    game:add_item(wand)
-    game:add_item(Mirror())
-    game:add_item(Shoes())
-    game:add_item(AmuletStrength())
-    game:add_item(AmuletSpeed())
+    -- game:add_item(DevWand())
+    -- game:add_item(Mirror())
+    -- game:add_item(Shoes())
+    -- game:add_item(AmuletStrength())
+    -- game:add_item(AmuletSpeed())
+    -- game.map_items:at(game.player_loc, Scepter())
 
     for n = 1, 2 do -- Start with two pots
         local potion = HealthPotion()
@@ -109,7 +109,7 @@ function Game:next_level()
     self.stairs_loc = self.map:find_value('='):shift()
     self.map:at(self.stairs_loc, '.')
 
-    if false and Level.LEVELS[self.level_num + 1] then -- Stairs, to the next level
+    if Level.LEVELS[self.level_num + 1] then -- Stairs, to the next level
         self.map_items:at(self.stairs_loc, Stairs())
     else -- This is the last level! A scepter for the winner.
         self.map_items:at(self.stairs_loc, Scepter())
@@ -138,10 +138,18 @@ end
 function Game:add_item(item)
     if instanceOf(Gold, item) then
         self.score = self.score + item.value
+    elseif not item.usable and self:has_item(item.class) then
+        -- We already got one; sell it
+        self:log("You already have one of these, but you can sell it back in town.", {255, 255, 0})
+        self.score = self.score + self.level_num * 25
     else
         self.inventory:push(item)
         self.sidebar:add_item(item)
     end
+end
+
+function Game:has_item(klass)
+    return self.inventory:select(function(i) return instanceOf(klass, i) end):shift()
 end
 
 function Game:remove_item(item)
