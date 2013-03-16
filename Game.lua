@@ -108,7 +108,12 @@ function Game:next_level()
 
     self.stairs_loc = self.map:find_value('='):shift()
     self.map:at(self.stairs_loc, '.')
-    self.map_items:at(self.stairs_loc, Stairs())
+
+    if false and Level.LEVELS[self.level_num + 1] then -- Stairs, to the next level
+        self.map_items:at(self.stairs_loc, Stairs())
+    else -- This is the last level! A scepter for the winner.
+        self.map_items:at(self.stairs_loc, Scepter())
+    end
 
     self:reveal(self.player_loc)
     self.sidebar:redraw_minimap()

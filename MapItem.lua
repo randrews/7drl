@@ -53,6 +53,38 @@ end
 
 --------------------------------------------------
 
+Scepter = class('Scepter', MapItem)
+
+function Scepter:initialize()
+    self:init{
+        name = "Scepter",
+        icon = Point(128, 0),
+        size = Point(32, 32),
+        image = Game.images.custom
+    }
+end
+
+function Scepter:bump(game, pt)
+    game:set_freeze(true)
+    local prom = utils.dialog("You win!",
+                              "You have found the \n royal scepter, and \n win the game! \n Your final score is " .. game.score,
+                              "Quit",
+                              "Restart",
+                              30)
+
+    prom:add(function(btn)
+                 game:set_freeze(false)
+                 if btn == 'Quit' then
+                     love.event.push('quit')
+                     REALLY_QUIT = true
+                 else
+                     START_GAME()
+                 end
+             end)
+end
+
+--------------------------------------------------
+
 Chest = class('Chest', MapItem)
 
 function Chest:initialize(item1, item2)

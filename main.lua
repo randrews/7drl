@@ -34,6 +34,11 @@ function love.load()
 end
 
 function START_GAME()
+    if current_game then
+        current_game.sidebar.log_window.frame:SetVisible(false)
+        current_game.sidebar.minimap.frame:SetVisible(false)
+    end
+
     current_game = Game()
     Game.start(current_game)
 end

@@ -214,7 +214,7 @@ function AmuletSpeed:initialize()
         name = 'Speed Amulet',
         category = 'amulet',
         wearable = true,
-        icon = Point(96, 0),
+        icon = Point(95, 0),
         image = Game.images.custom,
         description = "A pale blue amulet \n (increases chance to hit by 15%)"
     }
